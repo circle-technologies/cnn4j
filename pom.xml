@@ -23,12 +23,28 @@
             <version>0.5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.encog</groupId>
             <artifactId>encog-core</artifactId >
             <version >3.3.0</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+
+
 
     </dependencies>
 
