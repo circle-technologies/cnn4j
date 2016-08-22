@@ -2,7 +2,7 @@ package com.circle_technologies.rnn;
 
 import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.DataIterator;
-import com.circle_technologies.rnn.naive.INDArrayReader;
+import com.circle_technologies.rnn.naive.NaiveJSONToINDArray;
 import com.circle_technologies.rnn.naive.Network;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class Main {
         network.build();
         Log.debug("RNN","Done");
 
-        INDArrayReader reader = new INDArrayReader();
+        NaiveJSONToINDArray reader = new NaiveJSONToINDArray();
         reader.readFile("data/training.json");
 
         network.train(new DataIterator(reader,1000));

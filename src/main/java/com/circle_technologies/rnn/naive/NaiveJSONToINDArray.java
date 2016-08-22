@@ -35,7 +35,7 @@ import java.util.List;
  * Was explicitly created for {@link DataIterator} implementation.
  *
  */
-public class INDArrayReader implements Iterable<Pair<INDArray,INDArray>>{
+public class NaiveJSONToINDArray implements Iterable<Pair<INDArray,INDArray>>{
 
     /**
      * The data stored in a array list. This is never null.
@@ -45,7 +45,7 @@ public class INDArrayReader implements Iterable<Pair<INDArray,INDArray>>{
 
 
 
-    public INDArrayReader (){
+    public NaiveJSONToINDArray(){
         mPairList = new ArrayList<Pair<INDArray, INDArray>>();
     }
 
