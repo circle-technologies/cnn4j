@@ -22,7 +22,7 @@ public class Network {
 
     public void build(){
         MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
-                .iterations(1)
+                .iterations(100)
                 .weightInit(WeightInit.XAVIER)
                 .activation("relu")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)

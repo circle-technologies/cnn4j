@@ -29,10 +29,6 @@ public class INDArrayReader implements Iterable<Pair<INDArray,INDArray>>{
         return mPairList;
     }
 
-    public ListIterator<Pair<INDArray,INDArray>> getIterator(){
-        return mPairList.listIterator();
-    }
-
     public void readFile(String filePath) throws IOException {
 
 

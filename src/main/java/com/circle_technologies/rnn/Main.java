@@ -24,6 +24,6 @@ public class Main {
         INDArrayReader reader = new INDArrayReader();
         reader.readFile("data/training.json");
 
-        network.train(new DataIterator(reader,500));
+        network.train(new DataIterator(reader,1000));
     }
 }
