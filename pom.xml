@@ -31,6 +31,23 @@
             <version>0.5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-ui</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-ui-components</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-ui-parent</artifactId>
+            <version>0.5.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.encog</groupId>
@@ -49,9 +66,15 @@
         <dependency>
             <groupId>com.circle-technologies</groupId>
             <artifactId>caf</artifactId>
-            <version>0.4</version>
+            <version>0.5</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
 
 
     </dependencies>

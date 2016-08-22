@@ -3,9 +3,11 @@ package com.circle_technologies.rnn.naive;
 import com.circle_technologies.caf.annotation.NonNull;
 import com.circle_technologies.caf.io.IOToolKit;
 import org.deeplearning4j.berkeley.Pair;
+import org.deeplearning4j.datasets.iterator.impl.ListDataSetIterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.IOException;
@@ -34,25 +36,22 @@ import java.util.List;
  * <p>
  * Was explicitly created for {@link DataIterator} implementation.
  */
-public class NaiveJSONToINDArray implements Iterable<Pair<INDArray, INDArray>> {
+@SuppressWarnings("WeakerAccess")
+public class NaiveJSONToINDArray {
 
     /**
      * The data stored in a array list. This is never null.
      */
     @NonNull
-    private ArrayList<Pair<INDArray, INDArray>> mPairList;
+    private ArrayList<Pair<float[], float[]>> mPairList;
+
+    private INDArray mInputValues;
+
+    private INDArray mOutputValues;
 
 
     public NaiveJSONToINDArray() {
-        mPairList = new ArrayList<Pair<INDArray, INDArray>>();
-    }
-
-    /**
-     * @return The data yet read. This is never null but might be empty before {@link #readFile(String)} was executed
-     * successfully
-     */
-    public List<Pair<INDArray, INDArray>> getData() {
-        return mPairList;
+        mPairList = new ArrayList<Pair<float[], float[]>>();
     }
 
 
@@ -68,19 +67,51 @@ public class NaiveJSONToINDArray implements Iterable<Pair<INDArray, INDArray>> {
         for (int i = 0; i < length; i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            float[] input = new float[3];
-            input[0] = jsonObject.getInt("second_hand_date") - jsonObject.getInt("initial");
+            float[] input = new float[4];
+            input[0] = (float) decreasedTimeDiff(jsonObject.getDouble("second_hand_date"), jsonObject.getDouble("initial"));
             input[1] = jsonObject.getInt("mileage");
             input[2] = (float) jsonObject.getDouble("retail_price");
+            input[3] = 1;
+
 
             float[] output = new float[1];
             output[0] = (float) jsonObject.getDouble("second_hand_price");
 
-            mPairList.add(new Pair<INDArray, INDArray>(Nd4j.create(input), Nd4j.create(output)));
+            mPairList.add(new Pair<float[], float[]>(input, output));
         }
+
+        int data_read = mPairList.size();
+
+        mInputValues= Nd4j.create(data_read, 4);
+        mOutputValues = Nd4j.create(data_read, 1);
+
+        for (int i = 0; i < data_read; i++) {
+            float[] inputs = mPairList.get(i).getFirst();
+            mInputValues.putRow(i, Nd4j.create(inputs));
+            mOutputValues.put(i, 0, mPairList.get(i).getSecond()[0]);
+        }
+
+
     }
 
-    public Iterator<Pair<INDArray, INDArray>> iterator() {
-        return mPairList.iterator();
+
+    public ListDataSetIterator getListDataSetIterator(int batch_size){
+        DataSet dataSet = new DataSet(mInputValues, mOutputValues);
+        List<DataSet> listDataSet = dataSet.asList();
+        return new ListDataSetIterator(listDataSet, batch_size);
+    }
+
+
+
+    public static double decreaseTime(double time) {
+        return (time / (Math.pow(10, 8)));
+    }
+
+    public static double decreasedTimeDiff(double first, double second) {
+        if (second > first) {
+            return decreaseTime(second - first);
+        } else {
+            return decreaseTime(first - second);
+        }
     }
 }
