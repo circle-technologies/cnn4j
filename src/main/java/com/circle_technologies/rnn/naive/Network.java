@@ -4,6 +4,7 @@ import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
+import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
@@ -29,7 +30,7 @@ public class Network {
                 .list()
                 .layer(0,new DenseLayer.Builder().nIn(3).nOut(3).build())
                 .layer(1,new DenseLayer.Builder().nIn(3).nOut(3).build())
-                .layer(2,new DenseLayer.Builder().nIn(3).nOut(1).build())
+                .layer(2,new OutputLayer.Builder().nIn(3).nOut(1).build())
                 .backprop(true)
                 .build();
 
