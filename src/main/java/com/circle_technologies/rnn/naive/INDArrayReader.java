@@ -10,13 +10,14 @@ import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
 /**
  * Created by Sellm on 22.08.2016.
  */
-public class INDArrayReader {
+public class INDArrayReader implements Iterable<Pair<INDArray,INDArray>>{
     ArrayList<Pair<INDArray, INDArray>> mPairList;
 
 
@@ -52,5 +53,9 @@ public class INDArrayReader {
 
         }
 
+    }
+
+    public Iterator<Pair<INDArray, INDArray>> iterator() {
+        return mPairList.iterator();
     }
 }

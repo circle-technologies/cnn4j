@@ -9,7 +9,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * Created by Sellm on 22.08.2016.
  */
 public class DataIterator extends AbstractDataSetIterator<INDArray> {
-    protected DataIterator(@NonNull Iterable<Pair<INDArray, INDArray>> iterable, int batchSize) {
+    public DataIterator(@NonNull Iterable<Pair<INDArray, INDArray>> iterable, int batchSize) {
         super(iterable, batchSize);
     }
 }

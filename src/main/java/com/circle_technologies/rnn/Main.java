@@ -1,6 +1,7 @@
 package com.circle_technologies.rnn;
 
 import com.circle_technologies.caf.logging.Log;
+import com.circle_technologies.rnn.naive.DataIterator;
 import com.circle_technologies.rnn.naive.INDArrayReader;
 import com.circle_technologies.rnn.naive.Network;
 
@@ -22,5 +23,7 @@ public class Main {
 
         INDArrayReader reader = new INDArrayReader();
         reader.readFile("data/training.json");
+
+        network.train(new DataIterator(reader,500));
     }
 }

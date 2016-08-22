@@ -6,6 +6,7 @@ import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
 /**
  * Created by Sellm on 22.08.2016.
@@ -36,9 +37,12 @@ public class Network {
     }
 
 
-    public void train(String filePath){
-        mMultiLayerNetwork.fit();
+    public void train(DataSetIterator iterator){
+        mMultiLayerNetwork.fit(iterator);
     }
+
+
+
 
 
 
