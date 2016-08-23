@@ -18,8 +18,8 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         NaiveNetworkContext context = DaggerNaiveNetworkContext.builder().naiveNetworkModule(new NaiveNetworkModule()).build();
-        context.getCommander();
-
+        context.getNetwork();
+        context.getCommander().setVerbose(true);
     }
 
     public static void naive() throws IOException {

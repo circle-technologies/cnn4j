@@ -1,6 +1,7 @@
 package com.circle_technologies.rnn.naive.context;
 
 import com.circle_technologies.caf.command.Commander;
+import com.circle_technologies.rnn.naive.command.CommandPredict;
 import com.circle_technologies.rnn.naive.command.CommandTrain;
 import com.circle_technologies.rnn.naive.network.Network;
 import dagger.Module;
@@ -26,6 +27,7 @@ public class NaiveNetworkModule {
                 .setWorkingThreadName("Command Executor")
 
                 .addCommand(new CommandTrain(context))
+                .addCommand(new CommandPredict(context))
 
                 .build();
     }

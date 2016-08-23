@@ -25,21 +25,23 @@ public class CommandTrain extends AbstractNRNNCommand {
     }
 
     @Override
-    public Options getOptions() {
+    public Options createOptions() {
         Options options = new Options();
-        options.addOption(Option.builder().argName("f").longOpt("file").hasArg(true).desc("Path to file").required(true).build());
-        options.addOption(Option.builder().argName("e").longOpt("epochs").hasArg(true).desc("Number of epochs").required(true).type(Integer.class).build());
-        options.addOption(Option.builder().argName("b").longOpt("batches").desc("Batches count").required(true).type(Integer.class).build());
+
+        options.addOption(Option.builder("f").argName("f").longOpt("file").hasArg(true).desc("Path to file").required(true).build());
+        options.addOption(Option.builder("e").argName("e").longOpt("epochs").hasArg(true).desc("Number of epochs").required(true).type(Integer.class).build());
+        options.addOption(Option.builder("b").argName("b").longOpt("batches").hasArg()
+                .desc("Batches count").required(true).type(Integer.class).build());
         return options;
     }
 
     @Override
     public String execute(@Nullable CommandLine commandLine) {
-        String filePath = commandLine.getOptionValue("f");
-        int epochs = Integer.parseInt(commandLine.getOptionValue("e"));
-        int batch = Integer.parseInt(commandLine.getOptionValue("b"));
-
         try {
+            String filePath = commandLine.getOptionValue("f");
+            int epochs = Integer.parseInt(commandLine.getOptionValue("e"));
+            int batch = Integer.parseInt(commandLine.getOptionValue("b"));
+
             NaiveJSONToINDArray array = new NaiveJSONToINDArray();
             array.readFile(filePath);
             getContext().getNetwork().train(array.getListDataSetIterator(batch), epochs);
