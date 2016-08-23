@@ -1,4 +1,4 @@
-package com.circle_technologies.rnn.naive;
+package com.circle_technologies.rnn.naive.network;
 
 import lombok.NonNull;
 import org.deeplearning4j.berkeley.Pair;

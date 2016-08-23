@@ -1,4 +1,4 @@
-package com.circle_technologies.rnn.naive;
+package com.circle_technologies.rnn.naive.network;
 
 import com.circle_technologies.caf.annotation.NonNull;
 import com.circle_technologies.caf.io.IOToolKit;
@@ -12,7 +12,6 @@ import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

@@ -1,8 +1,11 @@
 package com.circle_technologies.rnn;
 
 import com.circle_technologies.caf.logging.Log;
-import com.circle_technologies.rnn.naive.NaiveJSONToINDArray;
-import com.circle_technologies.rnn.naive.Network;
+import com.circle_technologies.rnn.naive.context.DaggerNaiveNetworkContext;
+import com.circle_technologies.rnn.naive.context.NaiveNetworkModule;
+import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.naive.network.NaiveJSONToINDArray;
+import com.circle_technologies.rnn.naive.network.Network;
 import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.File;
@@ -14,7 +17,9 @@ import java.io.IOException;
 @SuppressWarnings("WeakerAccess")
 public class Main {
     public static void main(String[] args) throws IOException {
-        naive();
+        NaiveNetworkContext context = DaggerNaiveNetworkContext.builder().naiveNetworkModule(new NaiveNetworkModule()).build();
+        context.getCommander();
+
     }
 
     public static void naive() throws IOException {
@@ -22,7 +27,7 @@ public class Main {
         Network network = new Network();
         network.build();
 
-        Log.debug("RNN","Restoring nn from file");
+        Log.debug("RNN", "Restoring nn from file");
         network.restore(new File("rnn.net"));
 
         Log.debug("RNN", "Neuronal network initialized");
