@@ -3,7 +3,8 @@ package com.circle_technologies.rnn.naive.command;
 import com.circle_technologies.caf.annotation.Nullable;
 import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.naive.network.NaiveJSONToINDArray;
+import com.circle_technologies.rnn.naive.network.NaiveNetworkDataAccumulator;
+import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -30,8 +31,7 @@ public class CommandTrain extends AbstractNRNNCommand {
 
         options.addOption(Option.builder("f").argName("f").longOpt("file").hasArg(true).desc("Path to file").required(true).build());
         options.addOption(Option.builder("e").argName("e").longOpt("epochs").hasArg(true).desc("Number of epochs").required(true).type(Integer.class).build());
-        options.addOption(Option.builder("b").argName("b").longOpt("batches").hasArg()
-                .desc("Batches count").required(true).type(Integer.class).build());
+
         return options;
     }
 
@@ -40,12 +40,21 @@ public class CommandTrain extends AbstractNRNNCommand {
         try {
             String filePath = commandLine.getOptionValue("f");
             int epochs = Integer.parseInt(commandLine.getOptionValue("e"));
-            int batch = Integer.parseInt(commandLine.getOptionValue("b"));
 
-            NaiveJSONToINDArray array = new NaiveJSONToINDArray();
-            array.readFile(filePath);
-            getContext().getNetwork().train(array.getInputValues(), array.getOutputValues(), epochs);
-            //getContext().getNetwork().train(array.getListDataSetIterator(batch), epochs);
+            NaiveNetworkDataAccumulator accu = new NaiveNetworkDataAccumulator();
+            accu.parseJson(filePath);
+            accu.buildIND(true);
+
+            NetworkNorm norm = getContext().getNetworkNorm().get();
+            if (norm == null) {
+                Log.info("RNN", "Creating new norm according to data");
+                norm = accu.normalize();
+                getContext().getNetworkNorm().put(norm);
+            } else {
+                accu.normalize(norm);
+            }
+
+            getContext().getNetwork().train(accu.getInputValues(), accu.getOutputValues(), epochs);
 
 
         } catch (NumberFormatException e) {

@@ -1,6 +1,7 @@
 package com.circle_technologies.rnn.naive.network;
 
 import com.circle_technologies.caf.logging.Log;
+import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
@@ -38,15 +39,12 @@ public class Network {
         MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
                 .iterations(1)
                 .weightInit(WeightInit.XAVIER)
-                .activation("relu")
+                .activation("tanh")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.0005)
-                .regularization(true)
-                .l1(0.05)
-                .l2(0.05)
+                .learningRate(0.005)
                 .list()
-                .layer(0, new DenseLayer.Builder().nIn(4).nOut(3).activation("relu").build())
-                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
+                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("tanh").build())
+                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("tanh").build())
                 .layer(2, new OutputLayer.Builder().nIn(3).nOut(1).build())
                 .backprop(true)
                 .pretrain(false)
@@ -64,7 +62,7 @@ public class Network {
     /**
      * Trains the network. This is a wrapper around {@link MultiLayerNetwork#fit(DataSet)}
      *
-     * @param iterator A suitable iterator. {@link NaiveJSONToINDArray} can be used as iterotr too.
+     * @param iterator A suitable iterator. {@link NaiveNetworkDataAccumulator} can be used as iterotr too.
      */
     public void train(DataSetIterator iterator, int epochs) {
         for (int i = 0; i < epochs; i++) {
@@ -77,17 +75,17 @@ public class Network {
     }
 
 
-    public void train(INDArray input, INDArray output,  int epochs){
+    public void train(INDArray input, INDArray output, int epochs) {
         for (int i = 0; i < epochs; i++) {
-            mMultiLayerNetwork.fit(input,output);
+            mMultiLayerNetwork.fit(input, output);
         }
     }
 
 
-    public void predict(INDArray array) {
+    public float predict(INDArray array) {
         mMultiLayerNetwork.predict(array);
         INDArray array1 = mMultiLayerNetwork.output(array, false);
-        Log.debug("RNN", "predicted: " + array1.getFloat(0));
+        return array1.getFloat(0);
     }
 
 
@@ -95,8 +93,6 @@ public class Network {
         Evaluation evaluation = mMultiLayerNetwork.evaluate(iterator);
         Log.debug("RNN", "Evaluation score: " + evaluation.accuracy());
     }
-
-
 
 
     public void restore(File file) {

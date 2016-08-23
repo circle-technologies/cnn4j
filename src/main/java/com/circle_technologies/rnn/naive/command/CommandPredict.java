@@ -2,7 +2,7 @@ package com.circle_technologies.rnn.naive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.naive.network.NaiveJSONToINDArray;
+import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -35,16 +35,21 @@ public class CommandPredict extends AbstractNRNNCommand {
 
     @Override
     public String execute(@Nullable CommandLine commandLine) {
-        try{
+        try {
             long initial = Long.parseLong(commandLine.getOptionValue("i"));
             long sellDate = Long.parseLong(commandLine.getOptionValue("s"));
             float milage = Float.parseFloat(commandLine.getOptionValue("m"));
-            float sold = Float.parseFloat(commandLine.getOptionValue("p"));
+            float price = Float.parseFloat(commandLine.getOptionValue("p"));
 
-            getContext().getNetwork().predict(Nd4j.create(new float[]{(float) NaiveJSONToINDArray.decreasedTimeDiff(initial,sellDate),milage, sold,1}));
-            return "Predicted: "+initial+", "+sellDate+", "+milage+", "+sold;
-        }
-        catch (NumberFormatException e){
+            NetworkNorm norm = getContext().getNetworkNorm().get();
+
+            float _time = ((float) sellDate - (float) initial) / norm.getNormTime();
+            float _milage = milage / norm.getNormMilage();
+            float _price = price / norm.getNormPrice();
+
+            float prediction = getContext().getNetwork().predict(Nd4j.create(new float[]{_time, _milage, _price}, new int[]{1, 3}));
+            return "Predicted: " + initial + ", " + sellDate + ", " + milage + ", " + price + " norm:: " + _time + ", " + _milage + ", " + _price+" \n"+prediction*norm.getNormPrice();
+        } catch (NumberFormatException e) {
             return "Failed converting numbers";
         }
     }
