@@ -7,6 +7,7 @@ import dagger.Component;
 /**
  * Created by Sellm on 23.08.2016.
  */
+@NaiveNetworkScope
 @Component(modules = NaiveNetworkModule.class)
 public interface NaiveNetworkContext {
     Network getNetwork();

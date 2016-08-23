@@ -28,7 +28,7 @@ public class Network {
     private MultiLayerNetwork mMultiLayerNetwork;
 
     public Network() {
-
+        System.out.println("NETWORK CREATED");
     }
 
     /**
@@ -77,10 +77,16 @@ public class Network {
     }
 
 
+    public void train(INDArray input, INDArray output,  int epochs){
+        for (int i = 0; i < epochs; i++) {
+            mMultiLayerNetwork.fit(input,output);
+        }
+    }
+
 
     public void predict(INDArray array) {
         mMultiLayerNetwork.predict(array);
-        INDArray array1 = mMultiLayerNetwork.output(array);
+        INDArray array1 = mMultiLayerNetwork.output(array, false);
         Log.debug("RNN", "predicted: " + array1.getFloat(0));
     }
 
@@ -88,8 +94,9 @@ public class Network {
     public void test(DataSetIterator iterator) {
         Evaluation evaluation = mMultiLayerNetwork.evaluate(iterator);
         Log.debug("RNN", "Evaluation score: " + evaluation.accuracy());
-
     }
+
+
 
 
     public void restore(File file) {

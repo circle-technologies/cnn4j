@@ -11,8 +11,10 @@ import dagger.Provides;
  * Created by Sellm on 23.08.2016.
  */
 @Module
+@NaiveNetworkScope
 public class NaiveNetworkModule {
     @Provides
+    @NaiveNetworkScope
     Network provideNetwork() {
         Network network = new Network();
         network.build();
@@ -20,6 +22,7 @@ public class NaiveNetworkModule {
     }
 
     @Provides
+    @NaiveNetworkScope
     Commander provideCommander(NaiveNetworkContext context) {
         return new Commander.Builder()
                 .setShutdownOnExit(true)

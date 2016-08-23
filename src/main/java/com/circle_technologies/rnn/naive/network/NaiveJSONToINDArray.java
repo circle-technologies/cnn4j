@@ -76,12 +76,12 @@ public class NaiveJSONToINDArray {
             float[] output = new float[1];
             output[0] = (float) jsonObject.getDouble("second_hand_price");
 
-            mPairList.add(new Pair<float[], float[]>(input, output));
+            mPairList.add(new Pair<>(input, output));
         }
 
         int data_read = mPairList.size();
 
-        mInputValues= Nd4j.create(data_read, 4);
+        mInputValues = Nd4j.create(data_read, 4);
         mOutputValues = Nd4j.create(data_read, 1);
 
         for (int i = 0; i < data_read; i++) {
@@ -93,13 +93,19 @@ public class NaiveJSONToINDArray {
 
     }
 
-
-    public ListDataSetIterator getListDataSetIterator(int batch_size){
-        DataSet dataSet = new DataSet(mInputValues, mOutputValues);
-        List<DataSet> listDataSet = dataSet.asList();
-        return new ListDataSetIterator(listDataSet, batch_size);
+    public INDArray getInputValues() {
+        return mInputValues;
     }
 
+    public INDArray getOutputValues() {
+        return mOutputValues;
+    }
+
+
+    public void normalize() {
+        mInputValues.norm1();
+        mInputValues.norm1();
+    }
 
 
     public static double decreaseTime(double time) {

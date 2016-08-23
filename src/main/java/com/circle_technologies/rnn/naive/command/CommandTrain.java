@@ -44,7 +44,8 @@ public class CommandTrain extends AbstractNRNNCommand {
 
             NaiveJSONToINDArray array = new NaiveJSONToINDArray();
             array.readFile(filePath);
-            getContext().getNetwork().train(array.getListDataSetIterator(batch), epochs);
+            getContext().getNetwork().train(array.getInputValues(), array.getOutputValues(), epochs);
+            //getContext().getNetwork().train(array.getListDataSetIterator(batch), epochs);
 
 
         } catch (NumberFormatException e) {
