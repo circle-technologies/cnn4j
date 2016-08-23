@@ -20,27 +20,27 @@ public class CommandTrain extends AbstractNRNNCommand {
             String[] splitted = s.split(" ");
             if (splitted.length < 4) {
                 Log.info("RNN", "expected more params. eg: train [file] [epochs] [batch size]");
-            }
+            } else
 
-            try {
-                String file = splitted[1];
-                int epochs = Integer.parseInt(splitted[2]);
-                int batch_size = Integer.parseInt(splitted[3]);
+                try {
+                    String file = splitted[1];
+                    int epochs = Integer.parseInt(splitted[2]);
+                    int batch_size = Integer.parseInt(splitted[3]);
 
-                NaiveJSONToINDArray array = new NaiveJSONToINDArray();
-                array.readFile(file);
-                getContext().getNetwork().train(array.getListDataSetIterator(batch_size));
-
-
-            } catch (NumberFormatException e) {
-                Log.info("RNN", "expected epochs param to be an integer");
-            } catch (IOException e) {
-                Log.info("RNN", "failed reading file");
-            }
+                    NaiveJSONToINDArray array = new NaiveJSONToINDArray();
+                    array.readFile(file);
+                    getContext().getNetwork().train(array.getListDataSetIterator(batch_size));
 
 
+                } catch (NumberFormatException e) {
+                    Log.info("RNN", "expected epochs param to be an integer");
+                } catch (IOException e) {
+                    Log.info("RNN", "failed reading file");
+                }
             return true;
         }
+
         return false;
     }
 }
+

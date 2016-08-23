@@ -25,7 +25,6 @@ import java.io.IOException;
  */
 public class Network {
 
-    private int mEpochs = 100;
     private MultiLayerNetwork mMultiLayerNetwork;
 
     public Network() {
@@ -67,23 +66,16 @@ public class Network {
      *
      * @param iterator A suitable iterator. {@link NaiveJSONToINDArray} can be used as iterotr too.
      */
-    public void train(DataSetIterator iterator) {
-        for (int i = 0; i < mEpochs; i++) {
+    public void train(DataSetIterator iterator, int epochs) {
+        for (int i = 0; i < epochs; i++) {
             if (i % 10 == 0)
-                Log.info("RNN", "Training epoch: " + (i + 1) + "/" + mEpochs);
+                Log.info("RNN", "Training epoch: " + (i + 1) + "/" + epochs);
             mMultiLayerNetwork.fit(iterator);
             iterator.reset();
         }
 
     }
 
-    public void setEpochs(int epochs) {
-        this.mEpochs = epochs;
-    }
-
-    public int getEpochs() {
-        return mEpochs;
-    }
 
 
     public void predict(INDArray array) {
