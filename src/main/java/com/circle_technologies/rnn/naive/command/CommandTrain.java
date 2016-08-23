@@ -29,7 +29,7 @@ public class CommandTrain extends AbstractNRNNCommand {
 
                     NaiveJSONToINDArray array = new NaiveJSONToINDArray();
                     array.readFile(file);
-                    getContext().getNetwork().train(array.getListDataSetIterator(batch_size));
+                    getContext().getNetwork().train(array.getListDataSetIterator(batch_size), epochs);
 
 
                 } catch (NumberFormatException e) {

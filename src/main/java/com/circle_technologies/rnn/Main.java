@@ -41,7 +41,7 @@ public class Main {
         test.readFile("data/test.json");
 
         Log.debug("RNN", "Training on training.json");
-        network.train(training.getListDataSetIterator(200));
+        network.train(training.getListDataSetIterator(200),100);
 
         Log.debug("RNN", "Storing trained network to file");
         network.save(new File("rnn.net"));
