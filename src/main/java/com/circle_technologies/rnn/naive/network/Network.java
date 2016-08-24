@@ -1,7 +1,6 @@
 package com.circle_technologies.rnn.naive.network;
 
 import com.circle_technologies.caf.logging.Log;
-import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
@@ -95,13 +94,15 @@ public class Network {
     }
 
 
-    public void restore(File file) {
+    public boolean restore(File file) {
         try {
             mMultiLayerNetwork = ModelSerializer.restoreMultiLayerNetwork(file);
             mMultiLayerNetwork.init();
             mMultiLayerNetwork.setListeners(new ScoreIterationListener(50));
+            return true;
         } catch (IOException e) {
             Log.debug("ERROR", "Failed restoring model");
+            return false;
         }
     }
 
