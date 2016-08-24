@@ -4,19 +4,13 @@ import com.circle_technologies.caf.annotation.Nullable;
 import com.circle_technologies.caf.io.IOToolKit;
 import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.naive.network.norm.INDArrayNetworkNorm;
-import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import com.circle_technologies.rnn.naive.network.norm.SimpleNetworkNorm;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.stream.JsonWriter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Created by Sellm on 24.08.2016.
