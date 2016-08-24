@@ -2,6 +2,7 @@ package com.circle_technologies.rnn.naive.context;
 
 import com.circle_technologies.caf.command.Commander;
 import com.circle_technologies.rnn.naive.command.CommandPredict;
+import com.circle_technologies.rnn.naive.command.CommandRestore;
 import com.circle_technologies.rnn.naive.command.CommandSave;
 import com.circle_technologies.rnn.naive.command.CommandTrain;
 import com.circle_technologies.rnn.naive.network.Network;
@@ -34,7 +35,7 @@ public class NaiveNetworkModule {
                 .addCommand(new CommandTrain(context))
                 .addCommand(new CommandPredict(context))
                 .addCommand(new CommandSave(context))
-
+                .addCommand(new CommandRestore(context))
 
                 .build();
     }
