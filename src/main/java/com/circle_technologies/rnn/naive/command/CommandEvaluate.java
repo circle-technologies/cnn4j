@@ -1,14 +1,15 @@
 package com.circle_technologies.rnn.naive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
+import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.naive.eval.ResidualEvaluation;
 import com.circle_technologies.rnn.naive.network.NaiveNetworkDataAccumulator;
 import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
-import javax.print.attribute.standard.MediaSize;
 import java.io.IOException;
 
 /**
@@ -44,6 +45,10 @@ public class CommandEvaluate extends AbstractNRNNCommand {
             accu.parseJson(filePath);
             accu.buildIND(true);
             accu.normalize(norm);
+
+            ResidualEvaluation evaluation = getContext().getEvaluator().evaluate(accu.getInputValues(), accu.getOutputValues());
+            Log.info("eval", "Evaluation:: mean-deviation: " + evaluation.getMeanDeviation());
+
             return "Evaluation done";
         } catch (IOException e) {
             return "Evaluation failed: IOException";

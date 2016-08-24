@@ -87,6 +87,13 @@ public class Network {
         return array1.getFloat(0);
     }
 
+    public INDArray predictAll(INDArray array) {
+        return mMultiLayerNetwork.output(array);
+    }
+
+    public void evaluate() {
+    }
+
 
     public void test(DataSetIterator iterator) {
         Evaluation evaluation = mMultiLayerNetwork.evaluate(iterator);
@@ -114,6 +121,11 @@ public class Network {
             Log.debug("ERROR", "Failed storing model");
             return false;
         }
+    }
+
+
+    public Evaluation evaluate(DataSetIterator iterator) {
+        return mMultiLayerNetwork.evaluate(iterator);
     }
 
 
