@@ -105,11 +105,13 @@ public class Network {
         }
     }
 
-    public void save(File file) {
+    public boolean save(File file) {
         try {
             ModelSerializer.writeModel(mMultiLayerNetwork, file, true);
+            return true;
         } catch (IOException e) {
             Log.debug("ERROR", "Failed storing model");
+            return false;
         }
     }
 
