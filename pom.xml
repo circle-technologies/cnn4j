@@ -57,11 +57,7 @@
             <version>0.5.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-ui-parent</artifactId>
-            <version>0.5.0</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.encog</groupId>

@@ -33,6 +33,7 @@ public class NaiveNetworkModule {
                 .addCommand(new CommandTrain(context))
                 .addCommand(new CommandPredict(context))
 
+
                 .build();
     }
 
