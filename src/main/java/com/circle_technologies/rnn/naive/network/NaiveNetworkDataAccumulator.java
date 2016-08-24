@@ -30,19 +30,10 @@ public class NaiveNetworkDataAccumulator {
     private INDArray mOutputValues;
 
 
-    /**
-     * DUmmy comment
-     */
+
     public NaiveNetworkDataAccumulator() {
         mPairList = new ArrayList<>();
     }
-
-    /**
-     * Dummy comment 2
-     * @param filePath
-     * @return
-     * @throws IOException
-     */
 
     public long parseJson(String filePath) throws IOException {
         JSONArray jsonArray = new JSONArray(IOToolKit.readFileToString(filePath));
