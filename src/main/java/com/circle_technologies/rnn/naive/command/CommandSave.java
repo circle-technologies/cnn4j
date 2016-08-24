@@ -43,7 +43,7 @@ public class CommandSave extends AbstractNRNNCommand {
     public String execute(@Nullable CommandLine commandLine) {
         try {
 
-            //Fetching the current network norm used.
+            //Fetching the current network norm used. d
             SimpleNetworkNorm norm = SimpleNetworkNorm.from(getContext().getNetworkNorm().get());
 
             //if norm == null >> never trained the network --> Saving is nonsense.
