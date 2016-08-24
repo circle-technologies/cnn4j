@@ -48,3 +48,4 @@ fabric.properties
 /data/
 /net/
 /residual_nn.iml
+/target/
