@@ -30,6 +30,9 @@ public class NaiveNetworkDataAccumulator {
     private INDArray mOutputValues;
 
 
+    /**
+     * DUmmy comment
+     */
     public NaiveNetworkDataAccumulator() {
         mPairList = new ArrayList<>();
     }
