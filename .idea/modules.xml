@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/residual_nn.iml" filepath="$PROJECT_DIR$/residual_nn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rnn.iml" filepath="$PROJECT_DIR$/rnn.iml" />
     </modules>
   </component>
 </project>

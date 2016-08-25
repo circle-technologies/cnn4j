@@ -7,6 +7,8 @@ import com.circle_technologies.rnn.naive.network.DataAccumulator;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
+import java.util.Locale;
+
 /**
  * Created by Sellm on 24.08.2016.
  */
@@ -33,11 +35,11 @@ public class CommandEvaluate extends AbstractDataReadingCommand {
 
     private void printEvaluation(ResidualEvaluation e) {
         System.out.println("###### EVALUATION ######");
-        System.out.println("Accuracy: " + e.getAccuracy());
-        System.out.println("Standard deviation: " + e.getStandardDeviation());
-        System.out.println("Mean deviation: " + e.getMeanDeviation());
-        System.out.println("Max deviation: " + e.getMaxDeviation());
-        System.out.println("Min deviation: " + e.getMinDeviation());
+        System.out.println("Accuracy:        " + String.format(Locale.US, "%.2f%%", e.getAccuracy() * 100));
+        System.out.println("Mean deviation:  " + e.getMeanDeviation());
+        System.out.println("SD:              " + e.getStandardDeviation());
+        System.out.println("Max deviation:   " + e.getMaxDeviation());
+        System.out.println("Min deviation:   " + e.getMinDeviation());
         System.out.println("######### END ##########");
     }
 

@@ -3,8 +3,6 @@ package com.circle_technologies.rnn.naive.eval;
 import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
-import java.util.Arrays;
-
 /**
  * Created by Sellm on 24.08.2016.
  */
@@ -35,11 +33,11 @@ public class INDArrayEvaluation implements ResidualEvaluation {
         for (int i = 0; i < mGuesses.rows(); i++) {
             float deviation = mReal.getFloat(i) - mGuesses.getFloat(i);
             float squaredDeviation = (float) Math.pow(deviation, 2);
-            accuDeviation+= deviation;
+            accuDeviation += squaredDeviation;
         }
         int rows = mGuesses.rows();
 
-        return accuDeviation / rows;
+        return accuDeviation / (float) rows * mNorm.getNormPrice() * mNorm.getNormPrice();
     }
 
     @Override
@@ -66,20 +64,21 @@ public class INDArrayEvaluation implements ResidualEvaluation {
     public float getMaxDeviation() {
         float max = 0;
         for (int i = 0; i < mGuesses.rows(); i++) {
-          float deviation = mGuesses.getFloat(i)-mReal.getFloat(i);
-            if(deviation < 0) deviation = -deviation;
-            if(deviation > max) max = deviation;
+            float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
+            if (deviation < 0) deviation = -deviation;
+            if (deviation > max) max = deviation;
         }
         return max * mNorm.getNormPrice();
     }
 
     @Override
     public float getMinDeviation() {
-        float min = 0;
+        float min = -1;
         for (int i = 0; i < mGuesses.rows(); i++) {
             float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
             if (deviation < 0) deviation = -deviation;
             if (deviation < min) min = deviation;
+            if (min == -1) min = deviation;
         }
         return min * mNorm.getNormPrice();
     }
@@ -87,10 +86,11 @@ public class INDArrayEvaluation implements ResidualEvaluation {
     @Override
     public float getAccuracy() {
 
-        float accumAccuracy = 0;
+        float accuAccuracy = 0;
 
         for (int i = 0; i < mGuesses.rows(); i++) {
             float guess = mGuesses.getFloat(i);
+            if (guess < 0) guess = -guess;
             float real = mReal.getFloat(i);
             float accuracy;
 
@@ -99,8 +99,8 @@ public class INDArrayEvaluation implements ResidualEvaluation {
             } else {
                 accuracy = guess / real;
             }
-            accumAccuracy += accuracy;
+            accuAccuracy += accuracy;
         }
-        return accumAccuracy / mGuesses.rows();
+        return accuAccuracy / (float) mGuesses.rows();
     }
 }

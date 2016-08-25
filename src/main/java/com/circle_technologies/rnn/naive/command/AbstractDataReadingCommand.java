@@ -24,6 +24,8 @@ public abstract class AbstractDataReadingCommand extends AbstractNRNNCommand {
         options.addOption(Option.builder("f").longOpt("file").desc("Filepath to a single file to read").hasArg().build());
         options.addOption(Option.builder("d").longOpt("dir").desc("Path to directory to read in: Reads all files in the specified" +
                 "dir").hasArg().build());
+
+        addOptions(options);
         return options;
     }
 
