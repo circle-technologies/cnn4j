@@ -61,7 +61,7 @@ public class Network {
     /**
      * Trains the network. This is a wrapper around {@link MultiLayerNetwork#fit(DataSet)}
      *
-     * @param iterator A suitable iterator. {@link NaiveNetworkDataAccumulator} can be used as iterotr too.
+     * @param iterator A suitable iterator. {@link DataAccumulator} can be used as iterotr too.
      */
     public void train(DataSetIterator iterator, int epochs) {
         for (int i = 0; i < epochs; i++) {
