@@ -13,9 +13,14 @@ import dagger.Component;
 @Component(modules = NaiveNetworkModule.class)
 public interface NaiveNetworkContext {
     Network getNetwork();
+
     Commander getCommander();
+
     NetworkNormHolder getNetworkNorm();
 
     @NaiveNetworkScope
     SimpleResidualEvaluator getEvaluator();
+
+    @NaiveNetworkScope
+    ContextTool getContextTool();
 }
