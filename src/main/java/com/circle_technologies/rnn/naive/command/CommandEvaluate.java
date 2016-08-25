@@ -4,7 +4,7 @@ import com.circle_technologies.caf.annotation.Nullable;
 import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
 import com.circle_technologies.rnn.naive.eval.ResidualEvaluation;
-import com.circle_technologies.rnn.naive.network.NaiveNetworkDataAccumulator;
+import com.circle_technologies.rnn.naive.network.DataAccumulator;
 import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -41,7 +41,7 @@ public class CommandEvaluate extends AbstractNRNNCommand {
             }
 
             String filePath = commandLine.getOptionValue("f");
-            NaiveNetworkDataAccumulator accu = new NaiveNetworkDataAccumulator();
+            DataAccumulator accu = new DataAccumulator();
             accu.parseJson(filePath);
             accu.buildIND(true);
             accu.normalize(norm);
