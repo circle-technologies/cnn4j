@@ -1,30 +1,22 @@
 package com.circle_technologies.rnn.naive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
-import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
 import com.circle_technologies.rnn.naive.eval.ResidualEvaluation;
 import com.circle_technologies.rnn.naive.network.DataAccumulator;
-import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-
-import java.io.IOException;
 
 /**
  * Created by Sellm on 24.08.2016.
  */
-public class CommandEvaluate extends AbstractNRNNCommand {
+public class CommandEvaluate extends AbstractDataReadingCommand {
     public CommandEvaluate(NaiveNetworkContext context) {
         super(context);
     }
 
     @Override
-    public Options createOptions() {
-        Options options = new Options();
-        options.addOption(Option.builder("f").longOpt("file").desc("File path to the JSON file.").hasArg().required().build());
-        return options;
+    public void addOptions(Options options) {
     }
 
     @Override
@@ -33,28 +25,9 @@ public class CommandEvaluate extends AbstractNRNNCommand {
     }
 
     @Override
-    public String execute(@Nullable CommandLine commandLine) {
-        try {
-            NetworkNorm norm = getContext().getNetworkNorm().get();
-            if (norm == null) {
-                return "Evaluation failed: No network norm found";
-            }
-
-            String filePath = commandLine.getOptionValue("f");
-            DataAccumulator accu = new DataAccumulator();
-            accu.parseJson(filePath);
-            accu.buildIND(true);
-            accu.normalize(norm);
-
-            ResidualEvaluation evaluation = getContext().getEvaluator().evaluate(accu.getInputValues(), accu.getOutputValues());
-            Log.info("eval", "Evaluation:: mean-deviation: " + evaluation.getMeanDeviation());
-
-            return "Evaluation done";
-        } catch (IOException e) {
-            return "Evaluation failed: IOException";
-        }
-
-
+    public String execute(DataAccumulator accu, @Nullable CommandLine commandLine) {
+        ResidualEvaluation evaluation = getContext().getEvaluator().evaluate(accu.getInputValues(), accu.getOutputValues());
+        return "Evaluation done";
     }
 
 
