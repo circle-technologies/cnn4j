@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("WeakerAccess")
-public class NaiveNetworkDataAccumulator {
+public class DataAccumulator {
 
     /**
      * Constant Variable which stores the count of the input parameters.
@@ -61,7 +61,7 @@ public class NaiveNetworkDataAccumulator {
      * This Array is to be normalized due to better performance of the network.
      */
 
-    public NaiveNetworkDataAccumulator() {
+    public DataAccumulator() {
 
         mPairList = new ArrayList<>();
     }
@@ -170,10 +170,17 @@ public class NaiveNetworkDataAccumulator {
      * normalization factor stored in the float Array 'norm'.
      *
      * @param netNorm Normalization factor of type NetworkNorm
+     * @return The specified netNorm if param <code>netNorm != null</code><br>
+     *     A newly created norm via {@link #normalize()} if <code>netNorm == null</code>
      */
 
 
-    public void normalize(NetworkNorm netNorm) {
+    public NetworkNorm normalize(NetworkNorm netNorm) {
+
+        if (netNorm == null) {
+            return normalize();
+        }
+
         int dataCount = mInputValues.size(0);
         float[] norm = new float[INPUT_PARAMS];
 
@@ -189,6 +196,8 @@ public class NaiveNetworkDataAccumulator {
                 mInputValues.put(i, k, value / norm[k]);
             }
         }
+
+        return netNorm;
     }
 
     /**
