@@ -25,12 +25,14 @@ public class CommandTrain extends AbstractDataReadingCommand {
     @Override
     public void addOptions(Options options) {
         options.addOption(Option.builder("e").argName("e").longOpt("epochs").hasArg(true).desc("Number of epochs").required(true).type(Integer.class).build());
+        options.addOption(Option.builder("w").longOpt("web-ui").hasArg(false).build());
     }
 
     @Override
     public String execute(DataAccumulator accumulator, @Nullable CommandLine commandLine) {
         try {
             int epochs = Integer.parseInt(commandLine.getOptionValue("e"));
+            getContext().getNetwork().enableWebUi(commandLine.hasOption("w"));
             getContext().getNetwork().train(accumulator.getInputValues(), accumulator.getOutputValues(), epochs);
 
         } catch (NumberFormatException e) {
