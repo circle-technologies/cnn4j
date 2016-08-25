@@ -1,7 +1,6 @@
 package com.circle_technologies.rnn.naive.network;
 
 import com.circle_technologies.caf.logging.Log;
-import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -59,11 +58,10 @@ public class Network {
                 .weightInit(WeightInit.XAVIER)
                 .activation("relu")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.005)
+                .learningRate(0.1)
                 .list()
                 .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
-                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
-                .layer(2, new OutputLayer.Builder().nIn(3).nOut(1).build())
+                .layer(1, new OutputLayer.Builder().nIn(3).nOut(1).build())
                 .backprop(true)
                 .pretrain(false)
                 .build();
@@ -111,19 +109,12 @@ public class Network {
 
 
     public float predict(INDArray array) {
-        mMultiLayerNetwork.predict(array);
-        INDArray array1 = mMultiLayerNetwork.output(array, false);
+        INDArray array1 = mMultiLayerNetwork.output(array);
         return array1.getFloat(0);
     }
 
     public INDArray predictAll(INDArray array) {
         return mMultiLayerNetwork.output(array);
-    }
-
-
-    public void test(DataSetIterator iterator) {
-        Evaluation evaluation = mMultiLayerNetwork.evaluate(iterator);
-        Log.debug("RNN", "Evaluation score: " + evaluation.accuracy());
     }
 
 
