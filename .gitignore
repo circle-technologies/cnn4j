@@ -46,3 +46,10 @@ crashlytics-build.properties
 fabric.properties
 
 /data/
+/net/
+/residual_nn.iml
+/target/
+*.iml
+/net2/
+/test/
+/train/

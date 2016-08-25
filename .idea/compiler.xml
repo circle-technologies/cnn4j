@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="residual_nn" />
+        <module name="rnn" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="residual_nn" target="1.8" />
+      <module name="rnn" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

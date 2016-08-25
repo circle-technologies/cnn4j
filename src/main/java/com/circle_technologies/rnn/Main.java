@@ -15,6 +15,6 @@ public class Main {
         NaiveNetworkContext context = DaggerNaiveNetworkContext.builder().naiveNetworkModule(new NaiveNetworkModule()).build();
         context.getNetwork();
         context.getCommander().setVerbose(true);
-    }
 
+    }
 }

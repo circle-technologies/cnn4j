@@ -1,7 +1,6 @@
 package com.circle_technologies.rnn.naive.network;
 
 import com.circle_technologies.caf.logging.Log;
-import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
@@ -39,12 +38,12 @@ public class Network {
         MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
                 .iterations(1)
                 .weightInit(WeightInit.XAVIER)
-                .activation("tanh")
+                .activation("relu")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
                 .learningRate(0.005)
                 .list()
-                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("tanh").build())
-                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("tanh").build())
+                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
+                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
                 .layer(2, new OutputLayer.Builder().nIn(3).nOut(1).build())
                 .backprop(true)
                 .pretrain(false)
@@ -53,7 +52,7 @@ public class Network {
 
         this.mMultiLayerNetwork = new MultiLayerNetwork(configuration);
         this.mMultiLayerNetwork.init();
-        this.mMultiLayerNetwork.setListeners(new ScoreIterationListener(50));
+        this.mMultiLayerNetwork.setListeners(new ScoreIterationListener(500));
 
 
     }
@@ -62,7 +61,7 @@ public class Network {
     /**
      * Trains the network. This is a wrapper around {@link MultiLayerNetwork#fit(DataSet)}
      *
-     * @param iterator A suitable iterator. {@link NaiveNetworkDataAccumulator} can be used as iterotr too.
+     * @param iterator A suitable iterator. {@link DataAccumulator} can be used as iterotr too.
      */
     public void train(DataSetIterator iterator, int epochs) {
         for (int i = 0; i < epochs; i++) {
@@ -88,6 +87,13 @@ public class Network {
         return array1.getFloat(0);
     }
 
+    public INDArray predictAll(INDArray array) {
+        return mMultiLayerNetwork.output(array);
+    }
+
+    public void evaluate() {
+    }
+
 
     public void test(DataSetIterator iterator) {
         Evaluation evaluation = mMultiLayerNetwork.evaluate(iterator);
@@ -95,22 +101,31 @@ public class Network {
     }
 
 
-    public void restore(File file) {
+    public boolean restore(File file) {
         try {
             mMultiLayerNetwork = ModelSerializer.restoreMultiLayerNetwork(file);
             mMultiLayerNetwork.init();
-            mMultiLayerNetwork.setListeners(new ScoreIterationListener(50));
+            mMultiLayerNetwork.setListeners(new ScoreIterationListener(500));
+            return true;
         } catch (IOException e) {
             Log.debug("ERROR", "Failed restoring model");
+            return false;
         }
     }
 
-    public void save(File file) {
+    public boolean save(File file) {
         try {
             ModelSerializer.writeModel(mMultiLayerNetwork, file, true);
+            return true;
         } catch (IOException e) {
             Log.debug("ERROR", "Failed storing model");
+            return false;
         }
+    }
+
+
+    public Evaluation evaluate(DataSetIterator iterator) {
+        return mMultiLayerNetwork.evaluate(iterator);
     }
 
 
