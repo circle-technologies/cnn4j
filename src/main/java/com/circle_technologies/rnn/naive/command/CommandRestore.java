@@ -72,6 +72,7 @@ public class CommandRestore extends AbstractNRNNCommand {
             String json = IOToolKit.readFileToString(file);
             Gson gson = new Gson();
             NetworkNorm norm = gson.fromJson(json, SimpleNetworkNorm.class);
+            getContext().getNetworkNorm().put(norm);
             Log.debug("restore", "Restored norm:  " + gson.toJson(norm));
             return true;
         } catch (IOException e) {

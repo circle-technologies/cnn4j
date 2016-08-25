@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("WeakerAccess")
-public class NaiveNetworkDataAccumulator {
+public class DataAccumulator {
 
     /**
      * Constant Variable which stores the count of the input parameters.
@@ -27,7 +27,7 @@ public class NaiveNetworkDataAccumulator {
      * Declaration of an ArrayList with pairwise values which will
      * store the input value as well as the output values. The length of this
      * PairList indicates the nummer of observations provided by the data set.
-     *
+     * <p>
      * This Arrays is never null.
      */
 
@@ -36,7 +36,7 @@ public class NaiveNetworkDataAccumulator {
 
     /**
      * Declaration of the INDArray mInputValues.
-     *
+     * <p>
      * The Array will be initialized as a matrix with INPUT_PARAMS x mPairList.size() dimensions.
      * Every row in the Array represents an observation (car).
      */
@@ -46,7 +46,7 @@ public class NaiveNetworkDataAccumulator {
 
     /**
      * Declaration of the INDArray mOutputValues.
-     *
+     * <p>
      * The Array will be initialized as a matrix with one dimension
      * containing the value of the target variable for every car.
      * This Array is to be normalized due to better performance of the network.
@@ -61,20 +61,20 @@ public class NaiveNetworkDataAccumulator {
      * This Array is to be normalized due to better performance of the network.
      */
 
-    public NaiveNetworkDataAccumulator() {
+    public DataAccumulator() {
 
         mPairList = new ArrayList<>();
     }
 
     /**
      * Method for parsing JSON-Files from a specified file localisation.#
-     *
+     * <p>
      * Method creates a JSON-Array. For every element in the JSON-Array a JSON-Object is
      * created which holds a float array with length according to the number of input params.
-     *
+     * <p>
      * For each JSON-Object a second float Array is created which stores a single value -
      * the output value, respectively the target variable.
-     *
+     * <p>
      * Finally the input as well as the output float Arrays are stored each as a pair element in
      * {@link #mPairList}.
      *
@@ -109,20 +109,19 @@ public class NaiveNetworkDataAccumulator {
 
 
     /**
-     *
      * Method for building INDArrays
-     *
+     * <p>
      * INDArrays are required for training the data with DL4J.
      * The method builds two INDArrays (input and output) with the number of rows according to the
      * number of elements (size) in {@link #mPairList}. Each observation (car) corresponds
      * to one row in the INDArray.
-     *
+     * <p>
      * For the input object the number of columns is retrieved by the {@link #INPUT_PARAMS}
      * constant which holds the number of variables observed in the data set.
-     *
+     * <p>
      * The number of columnns for the output object is equal to 1 as it only contains
      * the target variable for each observation (car).
-     *
+     * <p>
      * The method iterates over each elements in the {@link #mPairList} and puts the first value
      * of every pair in a float Array called inputs which is then stored as a row in {@link #mInputValues}.
      * In the output INDArray every second element of the {@link #mPairList} ist stored.
@@ -160,10 +159,10 @@ public class NaiveNetworkDataAccumulator {
 
     /**
      * Normalization of the input and output values with normalization factors known previously.
-     *
+     * <p>
      * This method creates a float Array in which the normalization factors for each input param are stored.
      * Those are retrieved by the get-Methods provided by the NetworkNorm interface.
-     *
+     * <p>
      * mOutputValues: Since the variable INDArray mOutputValues does contain only one column which contains
      * the target variable only the first column is normalized row-wise.
      * mInputValues: For all the three columns in the {@link #INPUT_PARAMS} all the values in the
@@ -171,10 +170,17 @@ public class NaiveNetworkDataAccumulator {
      * normalization factor stored in the float Array 'norm'.
      *
      * @param netNorm Normalization factor of type NetworkNorm
+     * @return The specified netNorm if param <code>netNorm != null</code><br>
+     *     A newly created norm via {@link #normalize()} if <code>netNorm == null</code>
      */
 
 
-    public void normalize(NetworkNorm netNorm) {
+    public NetworkNorm normalize(NetworkNorm netNorm) {
+
+        if (netNorm == null) {
+            return normalize();
+        }
+
         int dataCount = mInputValues.size(0);
         float[] norm = new float[INPUT_PARAMS];
 
@@ -190,16 +196,18 @@ public class NaiveNetworkDataAccumulator {
                 mInputValues.put(i, k, value / norm[k]);
             }
         }
+
+        return netNorm;
     }
 
     /**
      * Method for generating the Normalization factors and performing the Normalization. Normalization
      * factors NOT known previously.
-     *
+     * <p>
      * The method creates an INDArray in which the Normalization factors are stored.
      * Then the normalize()-method is called with the now generated Normalization factors.
      *
-      * @return Normalization factor of type NetworkNorm
+     * @return Normalization factor of type NetworkNorm
      */
 
     public NetworkNorm normalize() {
