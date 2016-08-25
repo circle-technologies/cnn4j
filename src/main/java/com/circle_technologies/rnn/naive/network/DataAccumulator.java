@@ -2,10 +2,12 @@ package com.circle_technologies.rnn.naive.network;
 
 import com.circle_technologies.caf.annotation.NonNull;
 import com.circle_technologies.caf.io.IOToolKit;
+import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.naive.network.norm.INDArrayNetworkNorm;
 import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.deeplearning4j.berkeley.Pair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -89,18 +91,22 @@ public class DataAccumulator {
         JSONArray jsonArray = new JSONArray(IOToolKit.readFileToString(filePath));
         int length = jsonArray.length();
         for (int i = 0; i < length; i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            float[] input = new float[INPUT_PARAMS];
-            input[0] = (float) (jsonObject.getDouble("second_hand_date") - jsonObject.getDouble("initial"));
-            input[1] = jsonObject.getInt("mileage");
-            input[2] = (float) jsonObject.getDouble("retail_price");
+                float[] input = new float[INPUT_PARAMS];
+                input[0] = (float) (jsonObject.getDouble("second_hand_date") - jsonObject.getDouble("initial"));
+                input[1] = jsonObject.getInt("mileage");
+                input[2] = (float) jsonObject.getDouble("retail_price");
 
 
-            float[] output = new float[1];
-            output[0] = (float) jsonObject.getDouble("second_hand_price");
+                float[] output = new float[1];
+                output[0] = (float) jsonObject.getDouble("second_hand_price");
 
-            mPairList.add(new Pair<>(input, output));
+                mPairList.add(new Pair<>(input, output));
+            } catch (JSONException e) {
+                Log.debug("data", "failed reading object: " + e.getMessage());
+            }
         }
 
         return jsonArray.length();

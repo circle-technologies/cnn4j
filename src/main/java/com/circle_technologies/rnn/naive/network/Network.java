@@ -38,12 +38,12 @@ public class Network {
         MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
                 .iterations(1)
                 .weightInit(WeightInit.XAVIER)
-                .activation("tanh")
+                .activation("relu")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
                 .learningRate(0.005)
                 .list()
-                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("tanh").build())
-                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("tanh").build())
+                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
+                .layer(1, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
                 .layer(2, new OutputLayer.Builder().nIn(3).nOut(1).build())
                 .backprop(true)
                 .pretrain(false)
@@ -52,7 +52,7 @@ public class Network {
 
         this.mMultiLayerNetwork = new MultiLayerNetwork(configuration);
         this.mMultiLayerNetwork.init();
-        this.mMultiLayerNetwork.setListeners(new ScoreIterationListener(50));
+        this.mMultiLayerNetwork.setListeners(new ScoreIterationListener(500));
 
 
     }
@@ -105,7 +105,7 @@ public class Network {
         try {
             mMultiLayerNetwork = ModelSerializer.restoreMultiLayerNetwork(file);
             mMultiLayerNetwork.init();
-            mMultiLayerNetwork.setListeners(new ScoreIterationListener(50));
+            mMultiLayerNetwork.setListeners(new ScoreIterationListener(500));
             return true;
         } catch (IOException e) {
             Log.debug("ERROR", "Failed restoring model");
