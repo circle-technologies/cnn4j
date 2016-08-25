@@ -15,5 +15,7 @@ public interface ResidualEvaluation {
 
     float getAccuracy();
 
+    float getVariance();
+
 
 }

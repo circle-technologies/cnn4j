@@ -3,6 +3,8 @@ package com.circle_technologies.rnn.naive.eval;
 import com.circle_technologies.rnn.naive.network.norm.NetworkNorm;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
+import java.util.Arrays;
+
 /**
  * Created by Sellm on 24.08.2016.
  */
@@ -24,7 +26,20 @@ public class INDArrayEvaluation implements ResidualEvaluation {
 
     @Override
     public float getStandardDeviation() {
-        return 0;
+        return (float) Math.sqrt(getVariance());
+    }
+
+    @Override
+    public float getVariance() {
+        float accuDeviation = 0;
+        for (int i = 0; i < mGuesses.rows(); i++) {
+            float deviation = mReal.getFloat(i) - mGuesses.getFloat(i);
+            float squaredDeviation = (float) Math.pow(deviation, 2);
+            accuDeviation+= deviation;
+        }
+        int rows = mGuesses.rows();
+
+        return accuDeviation / rows;
     }
 
     @Override
@@ -49,16 +64,43 @@ public class INDArrayEvaluation implements ResidualEvaluation {
 
     @Override
     public float getMaxDeviation() {
-        return 0;
+        float max = 0;
+        for (int i = 0; i < mGuesses.rows(); i++) {
+          float deviation = mGuesses.getFloat(i)-mReal.getFloat(i);
+            if(deviation < 0) deviation = -deviation;
+            if(deviation > max) max = deviation;
+        }
+        return max * mNorm.getNormPrice();
     }
 
     @Override
     public float getMinDeviation() {
-        return 0;
+        float min = 0;
+        for (int i = 0; i < mGuesses.rows(); i++) {
+            float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
+            if (deviation < 0) deviation = -deviation;
+            if (deviation < min) min = deviation;
+        }
+        return min * mNorm.getNormPrice();
     }
 
     @Override
     public float getAccuracy() {
-        return 0;
+
+        float accumAccuracy = 0;
+
+        for (int i = 0; i < mGuesses.rows(); i++) {
+            float guess = mGuesses.getFloat(i);
+            float real = mReal.getFloat(i);
+            float accuracy;
+
+            if (guess > real) {
+                accuracy = real / guess;
+            } else {
+                accuracy = guess / real;
+            }
+            accumAccuracy += accuracy;
+        }
+        return accumAccuracy / mGuesses.rows();
     }
 }
