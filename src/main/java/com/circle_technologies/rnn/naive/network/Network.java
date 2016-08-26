@@ -76,7 +76,6 @@ public class Network {
                 .pretrain(false)
                 .build();
 
-
         this.mMultiLayerNetwork = new MultiLayerNetwork(configuration);
         this.mMultiLayerNetwork.init();
     }
@@ -199,6 +198,9 @@ public class Network {
     }
 
 
+    /**
+     * @param iteration sets {@link #mDebuggingIteration}
+     */
     public void setDebuggingIteration(int iteration) {
         this.mDebuggingIteration = iteration;
     }
