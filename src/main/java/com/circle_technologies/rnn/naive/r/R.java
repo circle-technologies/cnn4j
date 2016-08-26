@@ -53,14 +53,18 @@ public interface R {
      *               <p>
      *               Be sure: Those params might change (e.g. additional values might be required if network gets
      *               extended).
-     * @return The predicted price of the given car in Euro.
+     * @return The predicted price of the given car in Euro.<br>
+     * <code>-1</code> on any errors.
      */
     float predict(float[] params);
 
 
     /**
-     * @return An implementation of {@link ResidualEvaluation}.
+     * @param dirOrFile The filepath to a training file <br>
+     *                  or the path to a directory containing many json files to evaluate.
+     * @return An implementation of {@link ResidualEvaluation}.<br>
+     * <code>null</code> on any errors.
      */
-    ResidualEvaluation evaluate();
+    ResidualEvaluation evaluate(String dirOrFile);
 
 }
