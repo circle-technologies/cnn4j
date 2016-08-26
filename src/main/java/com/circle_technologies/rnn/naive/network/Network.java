@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * <p>
  * Just a little Wrapper around {@link MultiLayerNetwork} to provide a simpler interface and hide the complexity
  */
+@SuppressWarnings("WeakerAccess")
 public class Network {
 
     /**
@@ -31,9 +32,17 @@ public class Network {
      */
     public static final int STANDARD_DEBUGGING_ITERATION = 500;
 
+
+    /**
+     * The neural network instance provided by deeplearning4j
+     */
     private MultiLayerNetwork mMultiLayerNetwork;
 
 
+    /**
+     * Contains all iteration listeners for this network. This will be refreshed in {@link #mMultiLayerNetwork}
+     * everytime {@link #train(INDArray, INDArray, int)} is called.
+     */
     private ArrayList<IterationListener> mIterationListeners;
 
     /**
@@ -51,6 +60,7 @@ public class Network {
 
     /**
      * Builds and initializes the network with given config.
+     * This has to be called before the network is used.
      */
     public void build() {
         MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
@@ -73,6 +83,9 @@ public class Network {
 
 
     /**
+     * This method is obsolete because it needs refreshment.
+     * It does not support the new method of printing the score to the console
+     * nor the web ui.
      * Trains the network. This is a wrapper around {@link MultiLayerNetwork#fit(DataSet)}
      *
      * @param iterator A suitable iterator. {@link DataAccumulator} can be used as iterotr too.
@@ -88,6 +101,12 @@ public class Network {
 
     }
 
+    /**
+     * Enables the web-ui for training mode.
+     *
+     * @param enable <code>true - </code> if you want to enable the web-ui with histograms etc. <br>
+     *               <code>false - to disable training web-ui</code>
+     */
     public void enableWebUi(boolean enable) {
         mIterationListeners.removeIf(iterationListener -> iterationListener instanceof HistogramIterationListener);
         if (enable) {
@@ -96,7 +115,17 @@ public class Network {
     }
 
 
-
+    /**
+     * Trains the network with given input and output arrays. The format has to be like
+     * in {@link DataAccumulator#mInputValues} and {@link DataAccumulator#mOutputValues}.
+     * Will print to console if {@link #mDebuggingIteration} is higher 0. see: {@link #setDebuggingIteration(int)}.
+     * Will make use of a web-ui if {@link #enableWebUi(boolean)} is set to true.
+     *
+     * @param input  The input values formatted as n*m matrix. Every row refers to a input vector.
+     * @param output The output values formatted as n*1 matrix. Like a standing vector.
+     * @param epochs The number of epochs. This is the number of how often {@link MultiLayerNetwork#fit(INDArray, INDArray)} is called with
+     *               given data.
+     */
     public void train(INDArray input, INDArray output, int epochs) {
         mMultiLayerNetwork.setListeners(mIterationListeners);
         for (int i = 0; i < epochs; i++) {
@@ -108,16 +137,39 @@ public class Network {
     }
 
 
+    /**
+     * Returns the prediction of a simple input vector.
+     *
+     * @param array A transposed vector or a matrix with every row refering to a vector.
+     * @return The prediction of the first vector. (returns just one prediction).
+     * The prediction is normalized.
+     */
     public float predict(INDArray array) {
         INDArray array1 = mMultiLayerNetwork.output(array);
         return array1.getFloat(0);
     }
 
+    /**
+     * Same as {@link #predict(INDArray)}.
+     * Predicts a whole matrix. Every row represents a data set to predict.
+     *
+     * @param array A matrix like in {@link DataAccumulator#mInputValues}
+     * @return a standing vector (nx1 matrix). Every row contains 1 element which is the predicted value
+     * for the input row. The outputs are normalized. Call {@code * norm.getNorm*()} to back-transform.
+     */
     public INDArray predictAll(INDArray array) {
         return mMultiLayerNetwork.output(array);
     }
 
 
+    /**
+     * Restores the network from a file. This file is most commonly called rnn.net
+     *
+     * @param file The network file.
+     * @return <code>true - </code> if the network was stored successfully <br>
+     * <code>false - </code> if not (IOException)
+     * @see #save(File)
+     */
     public boolean restore(File file) {
         try {
             mMultiLayerNetwork = ModelSerializer.restoreMultiLayerNetwork(file);
@@ -129,6 +181,13 @@ public class Network {
         }
     }
 
+    /**
+     * Saves the network model to a specified file.
+     *
+     * @param file The file to save the model to.
+     * @return <code>true - </code> if the model saved correctly to the file. <br>
+     * <code>false - </code> on failure (IOExeption)
+     */
     public boolean save(File file) {
         try {
             ModelSerializer.writeModel(mMultiLayerNetwork, file, true);
