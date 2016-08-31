@@ -3,6 +3,7 @@ package com.circle_technologies.rnn.predictive.network;
 import com.circle_technologies.caf.annotation.NonNull;
 import com.circle_technologies.caf.io.IOToolKit;
 import com.circle_technologies.caf.logging.Log;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import com.circle_technologies.rnn.predictive.network.norm.INDArrayNetworkNorm;
 import com.circle_technologies.rnn.predictive.network.norm.NetworkNorm;
 import org.deeplearning4j.berkeley.Pair;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,11 +21,9 @@ import java.util.ArrayList;
 @SuppressWarnings("WeakerAccess")
 public class DataAccumulator {
 
-    /**
-     * Constant Variable which stores the count of the input parameters.
-     */
+    private NetworkContext mContext;
 
-    public static final int INPUT_PARAMS = 3;
+
 
     /**
      * Declaration of an ArrayList with pairwise values which will
@@ -63,9 +63,11 @@ public class DataAccumulator {
      * This Array is to be normalized due to better performance of the network.
      */
 
-    public DataAccumulator() {
-
+    @Inject
+    public DataAccumulator(NetworkContext context) {
         mPairList = new ArrayList<>();
+        Log.debug("Network", "Accumulator created");
+        mContext = context;
     }
 
     /**
@@ -94,14 +96,8 @@ public class DataAccumulator {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                float[] input = new float[INPUT_PARAMS];
-                input[0] = (float) (jsonObject.getDouble("second_hand_date") - jsonObject.getDouble("initial"));
-                input[1] = jsonObject.getInt("mileage");
-                input[2] = (float) jsonObject.getDouble("retail_price");
-
-
-                float[] output = new float[1];
-                output[0] = (float) jsonObject.getDouble("second_hand_price");
+                float[] input = readParams(jsonObject, mContext.getParams().getInputParams());
+                float[] output = readParams(jsonObject, mContext.getParams().getOutputParams());
 
                 mPairList.add(new Pair<>(input, output));
             } catch (JSONException e) {
@@ -114,6 +110,15 @@ public class DataAccumulator {
     }
 
 
+    private float[] readParams(JSONObject object, String[] params) {
+        float[] read = new float[params.length];
+        for (int i = 0; i < params.length; i++) {
+            read[i] = (float) object.getDouble(params[i]);
+        }
+
+        return read;
+    }
+
     /**
      * Method for building INDArrays
      * <p>
@@ -122,7 +127,7 @@ public class DataAccumulator {
      * number of elements (size) in {@link #mPairList}. Each observation (car) corresponds
      * to one row in the INDArray.
      * <p>
-     * For the input object the number of columns is retrieved by the {@link #INPUT_PARAMS}
+     * For the input object the number of columns is retrieved by the {#INPUT_PARAMS}
      * constant which holds the number of variables observed in the data set.
      * <p>
      * The number of columnns for the output object is equal to 1 as it only contains
@@ -138,7 +143,7 @@ public class DataAccumulator {
 
     public void buildIND(boolean clear) {
         int data_read = mPairList.size();
-        mInputValues = Nd4j.create(data_read, INPUT_PARAMS);
+        mInputValues = Nd4j.create(data_read, mContext.getParams().getInputParams().length);
         mOutputValues = Nd4j.create(data_read, 1);
 
         for (int i = 0; i < data_read; i++) {
@@ -171,7 +176,7 @@ public class DataAccumulator {
      * <p>
      * mOutputValues: Since the variable INDArray mOutputValues does contain only one column which contains
      * the target variable only the first column is normalized row-wise.
-     * mInputValues: For all the three columns in the {@link #INPUT_PARAMS} all the values in the
+     * mInputValues: For all the three columns in the { #INPUT_PARAMS} all the values in the
      * mInputValues variable are normalized row-wise. Therefore every value is divided by the according
      * normalization factor stored in the float Array 'norm'.
      *
@@ -187,21 +192,8 @@ public class DataAccumulator {
             return normalize();
         }
 
-        int dataCount = mInputValues.size(0);
-        float[] norm = new float[INPUT_PARAMS];
-
-        norm[0] = netNorm.getNormTime();
-        norm[1] = netNorm.getNormMilage();
-        norm[2] = netNorm.getNormPrice();
-
-        for (int i = 0; i < dataCount; i++) {
-            float output = mOutputValues.getFloat(i);
-            mOutputValues.put(i, 0, output / norm[2]);
-            for (int k = 0; k < INPUT_PARAMS; k++) {
-                float value = mInputValues.getFloat(i, k);
-                mInputValues.put(i, k, value / norm[k]);
-            }
-        }
+        normalize(mInputValues, netNorm.getInputNorm());
+        normalize(mOutputValues, netNorm.getOutputNorm());
 
         return netNorm;
     }
@@ -217,10 +209,24 @@ public class DataAccumulator {
      */
 
     public NetworkNorm normalize() {
-        INDArray array = mInputValues.normmax(0);
-        NetworkNorm norm = new INDArrayNetworkNorm(array);
+        INDArray inputNorm = mInputValues.normmax(0);
+        INDArray outputNorm = mOutputValues.normmax(0);
+        NetworkNorm norm = new INDArrayNetworkNorm(inputNorm, outputNorm);
         normalize(norm);
         return norm;
+    }
+
+
+    private void normalize(INDArray array, float[] norm) {
+        int inputParams = array.size(1);
+        int dataCount = array.size(0);
+        for (int i = 0; i < dataCount; i++) {
+            for (int k = 0; k < inputParams; k++) {
+                float value = array.getFloat(i, k);
+                array.put(i, k, value / norm[k]);
+            }
+        }
+
     }
 
     /**

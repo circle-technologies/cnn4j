@@ -1,19 +1,19 @@
 package com.circle_technologies.rnn.predictive.command;
 
 import com.circle_technologies.caf.command.AbstractCommand;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 
 /**
  * Created by Sellm on 23.08.2016.
  */
 public abstract class AbstractNRNNCommand extends AbstractCommand {
-    private NaiveNetworkContext mNaiveNetworkContext;
+    private NetworkContext mNaiveNetworkContext;
 
-    public AbstractNRNNCommand(NaiveNetworkContext context) {
+    public AbstractNRNNCommand(NetworkContext context) {
         this.mNaiveNetworkContext = context;
     }
 
-    protected NaiveNetworkContext getContext() {
+    protected NetworkContext getContext() {
         return mNaiveNetworkContext;
     }
 

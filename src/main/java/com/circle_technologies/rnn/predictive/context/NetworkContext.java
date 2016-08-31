@@ -2,25 +2,31 @@ package com.circle_technologies.rnn.predictive.context;
 
 import com.circle_technologies.caf.command.Commander;
 import com.circle_technologies.rnn.predictive.eval.SimpleResidualEvaluator;
-import com.circle_technologies.rnn.predictive.network.Network;
-import com.circle_technologies.rnn.predictive.network.NetworkNormHolder;
+import com.circle_technologies.rnn.predictive.network.*;
 import dagger.Component;
 
 /**
  * Created by Sellm on 23.08.2016.
  */
-@NaiveNetworkScope
-@Component(modules = NaiveNetworkModule.class)
-public interface NaiveNetworkContext {
+@NetworkScope
+@Component(modules = NetworkModule.class)
+public interface NetworkContext {
     Network getNetwork();
 
     Commander getCommander();
 
     NetworkNormHolder getNetworkNorm();
 
-    @NaiveNetworkScope
+    @NetworkScope
     SimpleResidualEvaluator getEvaluator();
 
-    @NaiveNetworkScope
+    @NetworkScope
     ContextTool getContextTool();
+
+    @NetworkScope
+    SimpleParams getParams();
+
+    DataAccumulator newAccu();
+
+    DirectoryDataAccumulator newDirAccu();
 }

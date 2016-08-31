@@ -1,14 +1,9 @@
 package com.circle_technologies.rnn.predictive.r;
 
 import com.circle_technologies.caf.logging.Log;
-import com.circle_technologies.rnn.predictive.context.DaggerNaiveNetworkContext;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkModule;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import com.circle_technologies.rnn.predictive.eval.ResidualEvaluation;
 import com.circle_technologies.rnn.predictive.network.DirectoryDataAccumulator;
-import com.circle_technologies.rnn.predictive.network.norm.NetworkNorm;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,11 +13,10 @@ import java.io.IOException;
  */
 public class R1 implements R {
 
-    private NaiveNetworkContext mContext;
+    private NetworkContext mContext;
 
     @Override
     public boolean initialize() {
-        mContext = DaggerNaiveNetworkContext.builder().naiveNetworkModule(new NaiveNetworkModule()).build();
         mContext.getNetwork().build();
         mContext.getCommander().setVerbose(false);
         return true;
@@ -40,7 +34,7 @@ public class R1 implements R {
 
     @Override
     public float predict(float[] params) {
-        NetworkNorm norm = mContext.getNetworkNorm().get();
+      /*  NetworkNorm norm = mContext.getNetworkNorm().get();
         if (norm == null) {
             return -1;
         }
@@ -54,12 +48,14 @@ public class R1 implements R {
         INDArray array = Nd4j.create(3, 1);
         array.putRow(0, Nd4j.create(n));
         return mContext.getNetwork().predict(array);
+        */
+        return -1;
     }
 
     @Override
     public ResidualEvaluation evaluate(String path) {
         try {
-            DirectoryDataAccumulator accumulator = new DirectoryDataAccumulator();
+            DirectoryDataAccumulator accumulator = mContext.newDirAccu();
             accumulator.parseAuto(path);
             accumulator.buildIND(true);
             return mContext.getEvaluator().evaluate(accumulator.getInputValues(), accumulator.getOutputValues());

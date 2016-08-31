@@ -1,8 +1,8 @@
 package com.circle_technologies.rnn;
 
-import com.circle_technologies.rnn.predictive.context.DaggerNaiveNetworkContext;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkModule;
+import com.circle_technologies.rnn.predictive.context.DaggerNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkModule;
 
 import java.io.IOException;
 
@@ -12,8 +12,9 @@ import java.io.IOException;
 @SuppressWarnings("WeakerAccess")
 public class Main {
     public static void main(String[] args) throws IOException {
-        NaiveNetworkContext context = DaggerNaiveNetworkContext.builder().naiveNetworkModule(new NaiveNetworkModule()).build();
-        context.getNetwork();
+
+        NetworkContext context = DaggerNetworkContext.builder().networkModule(new NetworkModule()).build();
+        context.getNetwork().enableWebUi(true);
         context.getCommander().setVerbose(true);
 
     }

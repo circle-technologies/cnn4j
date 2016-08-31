@@ -1,7 +1,7 @@
 package com.circle_technologies.rnn.predictive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class CommandSave extends AbstractNRNNCommand {
 
-    public CommandSave(NaiveNetworkContext context) {
+    public CommandSave(NetworkContext context) {
         super(context);
     }
 

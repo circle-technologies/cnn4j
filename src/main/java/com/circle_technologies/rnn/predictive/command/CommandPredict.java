@@ -1,13 +1,10 @@
 package com.circle_technologies.rnn.predictive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.predictive.network.norm.NetworkNorm;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
 
 /**
  * Created by Sellm on 23.08.2016.
@@ -15,7 +12,7 @@ import org.nd4j.linalg.factory.Nd4j;
 public class CommandPredict extends AbstractNRNNCommand {
 
 
-    public CommandPredict(NaiveNetworkContext context) {
+    public CommandPredict(NetworkContext context) {
         super(context);
     }
 
@@ -37,7 +34,7 @@ public class CommandPredict extends AbstractNRNNCommand {
 
     @Override
     public String execute(@Nullable CommandLine commandLine) {
-        try {
+        /*try {
             long initial;
             long sellDate;
             if (commandLine.hasOption("a") && !commandLine.hasOption("i") && !commandLine.hasOption("s")) {
@@ -69,6 +66,9 @@ public class CommandPredict extends AbstractNRNNCommand {
             return "Predicted: " + initial + ", " + sellDate + ", " + milage + ", " + price + " norm:: " + _time + ", " + _milage + ", " + _price + " \n" + prediction * norm.getNormPrice();
         } catch (NumberFormatException e) {
             return "Failed converting numbers: " + e.getMessage();
+
         }
+        */
+        return "Command currently not implemented";
     }
 }

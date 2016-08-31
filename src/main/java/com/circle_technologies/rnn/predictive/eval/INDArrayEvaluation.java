@@ -6,6 +6,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 /**
  * Created by Sellm on 24.08.2016.
  */
+
 public class INDArrayEvaluation implements ResidualEvaluation {
 
     private INDArray mGuesses;
@@ -29,6 +30,7 @@ public class INDArrayEvaluation implements ResidualEvaluation {
 
     @Override
     public float getVariance() {
+        /*
         float accuDeviation = 0;
         for (int i = 0; i < mGuesses.rows(); i++) {
             float deviation = mReal.getFloat(i) - mGuesses.getFloat(i);
@@ -37,11 +39,12 @@ public class INDArrayEvaluation implements ResidualEvaluation {
         }
         int rows = mGuesses.rows();
 
-        return accuDeviation / (float) rows * mNorm.getNormPrice() * mNorm.getNormPrice();
+        return accuDeviation / (float) rows * mNorm.getNormPrice() * mNorm.getNormPrice();*/
+        return -1;
     }
 
     @Override
-    public float getMeanDeviation() {
+    public float getMeanDeviation() {/*
         int rows = mGuesses.rows();
         float accumulatedDeviation = 0;
 
@@ -57,11 +60,13 @@ public class INDArrayEvaluation implements ResidualEvaluation {
         }
 
         float meanDeviation = accumulatedDeviation / rows;
-        return meanDeviation * mNorm.getNormPrice();
+        return meanDeviation * mNorm.getNormPrice();*/
+        return -1;
     }
 
     @Override
     public float getMaxDeviation() {
+        /*
         float max = 0;
         for (int i = 0; i < mGuesses.rows(); i++) {
             float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
@@ -69,10 +74,13 @@ public class INDArrayEvaluation implements ResidualEvaluation {
             if (deviation > max) max = deviation;
         }
         return max * mNorm.getNormPrice();
+        */
+        return -1;
     }
 
     @Override
     public float getMinDeviation() {
+        /*
         float min = -1;
         for (int i = 0; i < mGuesses.rows(); i++) {
             float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
@@ -81,10 +89,13 @@ public class INDArrayEvaluation implements ResidualEvaluation {
             if (min == -1) min = deviation;
         }
         return min * mNorm.getNormPrice();
+        */
+        return -1;
     }
 
     @Override
     public float getAccuracy() {
+        /*
 
         float accuAccuracy = 0;
 
@@ -102,5 +113,10 @@ public class INDArrayEvaluation implements ResidualEvaluation {
             accuAccuracy += accuracy;
         }
         return accuAccuracy / (float) mGuesses.rows();
+        */
+        return -1;
     }
+
 }
+
+

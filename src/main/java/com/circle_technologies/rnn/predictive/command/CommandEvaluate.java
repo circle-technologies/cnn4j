@@ -1,7 +1,7 @@
 package com.circle_technologies.rnn.predictive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import com.circle_technologies.rnn.predictive.eval.ResidualEvaluation;
 import com.circle_technologies.rnn.predictive.network.DataAccumulator;
 import org.apache.commons.cli.CommandLine;
@@ -13,7 +13,7 @@ import java.util.Locale;
  * Created by Sellm on 24.08.2016.
  */
 public class CommandEvaluate extends AbstractDataReadingCommand {
-    public CommandEvaluate(NaiveNetworkContext context) {
+    public CommandEvaluate(NetworkContext context) {
         super(context);
     }
 

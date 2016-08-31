@@ -1,6 +1,6 @@
 package com.circle_technologies.rnn.predictive.eval;
 
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 import javax.inject.Inject;
@@ -10,10 +10,10 @@ import javax.inject.Inject;
  */
 public class SimpleResidualEvaluator implements Evaluator {
 
-    private NaiveNetworkContext mContext;
+    private NetworkContext mContext;
 
     @Inject
-    public SimpleResidualEvaluator(NaiveNetworkContext context) {
+    public SimpleResidualEvaluator(NetworkContext context) {
         this.mContext = context;
     }
 

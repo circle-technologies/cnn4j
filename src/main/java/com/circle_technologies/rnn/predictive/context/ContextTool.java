@@ -14,13 +14,13 @@ import java.io.IOException;
 /**
  * Created by Sellm on 25.08.2016.
  * <p>
- * A helper class providing useful and convenient tools for correct working with {@link NaiveNetworkContext}.
+ * A helper class providing useful and convenient tools for correct working with {@link NetworkContext}.
  */
 public class ContextTool {
-    private NaiveNetworkContext mContext;
+    private NetworkContext mContext;
 
     @Inject
-    public ContextTool(NaiveNetworkContext context) {
+    public ContextTool(NetworkContext context) {
         this.mContext = context;
     }
 

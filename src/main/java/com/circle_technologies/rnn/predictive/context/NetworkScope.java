@@ -9,5 +9,5 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Scope
-public @interface NaiveNetworkScope {
+public @interface NetworkScope {
 }

@@ -1,7 +1,7 @@
 package com.circle_technologies.rnn.predictive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import com.circle_technologies.rnn.predictive.network.DataAccumulator;
 import com.circle_technologies.rnn.predictive.network.DirectoryDataAccumulator;
 import org.apache.commons.cli.CommandLine;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * Created by Sellm on 25.08.2016.
  */
 public abstract class AbstractDataReadingCommand extends AbstractNRNNCommand {
-    public AbstractDataReadingCommand(NaiveNetworkContext context) {
+    public AbstractDataReadingCommand(NetworkContext context) {
         super(context);
     }
 
@@ -40,7 +40,7 @@ public abstract class AbstractDataReadingCommand extends AbstractNRNNCommand {
                 return "specify dir (-d) or file (-f)";
             }
 
-            DirectoryDataAccumulator accumulator = new DirectoryDataAccumulator();
+            DirectoryDataAccumulator accumulator = getContext().newDirAccu();
 
             if (filePath != null) {
                 accumulator.parseJson(filePath);

@@ -1,5 +1,8 @@
 package com.circle_technologies.rnn.predictive.network;
 
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
+
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 
@@ -7,6 +10,11 @@ import java.io.IOException;
  * Created by Sellm on 25.08.2016.
  */
 public class DirectoryDataAccumulator extends DataAccumulator {
+
+    @Inject
+    DirectoryDataAccumulator(NetworkContext context) {
+        super(context);
+    }
 
     public long parseDir(String dirPath) throws IOException {
         File dir = new File(dirPath);

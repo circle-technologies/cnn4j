@@ -1,6 +1,7 @@
 package com.circle_technologies.rnn.predictive.network;
 
 import com.circle_technologies.caf.logging.Log;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -15,6 +16,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +55,12 @@ public class Network {
     private int mDebuggingIteration = STANDARD_DEBUGGING_ITERATION;
 
 
-    public Network() {
+    private NetworkContext mContext;
+
+
+    @Inject
+    public Network(NetworkContext context) {
+        mContext = context;
         System.out.println("NETWORK CREATED");
         this.mIterationListeners = new ArrayList<>();
     }
@@ -63,15 +70,17 @@ public class Network {
      * This has to be called before the network is used.
      */
     public void build() {
+        int inputs = mContext.getParams().getInputParams().length;
+        int outputs = mContext.getParams().getOutputParams().length;
         MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
                 .iterations(1)
                 .weightInit(WeightInit.XAVIER)
                 .activation("relu")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.1)
+                .learningRate(0.001)
                 .list()
-                .layer(0, new DenseLayer.Builder().nIn(3).nOut(3).activation("relu").build())
-                .layer(1, new OutputLayer.Builder().nIn(3).nOut(1).build())
+                .layer(0, new DenseLayer.Builder().nIn(inputs).nOut(inputs).activation("relu").build())
+                .layer(1, new OutputLayer.Builder().nIn(inputs).nOut(outputs).build())
                 .backprop(true)
                 .pretrain(false)
                 .build();
@@ -154,7 +163,7 @@ public class Network {
      *
      * @param array A matrix like in {@link DataAccumulator#mInputValues}
      * @return a standing vector (nx1 matrix). Every row contains 1 element which is the predicted value
-     * for the input row. The outputs are normalized. Call {@code * norm.getNorm*()} to back-transform.
+     * for the input row. The outputs are normalized. Call {@code * norm.getInputNorm*()} to back-transform.
      */
     public INDArray predictAll(INDArray array) {
         return mMultiLayerNetwork.output(array);

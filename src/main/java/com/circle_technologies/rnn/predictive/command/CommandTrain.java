@@ -2,7 +2,7 @@ package com.circle_technologies.rnn.predictive.command;
 
 import com.circle_technologies.caf.annotation.Nullable;
 import com.circle_technologies.caf.logging.Log;
-import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import com.circle_technologies.rnn.predictive.network.DataAccumulator;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -12,7 +12,7 @@ import org.apache.commons.cli.Options;
  * Created by Sellm on 23.08.2016.
  */
 public class CommandTrain extends AbstractDataReadingCommand {
-    public CommandTrain(NaiveNetworkContext context) {
+    public CommandTrain(NetworkContext context) {
         super(context);
     }
 
