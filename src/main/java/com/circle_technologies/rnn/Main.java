@@ -1,8 +1,8 @@
 package com.circle_technologies.rnn;
 
-import com.circle_technologies.rnn.naive.context.DaggerNaiveNetworkContext;
-import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
-import com.circle_technologies.rnn.naive.context.NaiveNetworkModule;
+import com.circle_technologies.rnn.predictive.context.DaggerNaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NaiveNetworkContext;
+import com.circle_technologies.rnn.predictive.context.NaiveNetworkModule;
 
 import java.io.IOException;
 
