@@ -24,7 +24,6 @@ public class DataAccumulator {
     private NetworkContext mContext;
 
 
-
     /**
      * Declaration of an ArrayList with pairwise values which will
      * store the input value as well as the output values. The length of this
@@ -211,6 +210,10 @@ public class DataAccumulator {
     public NetworkNorm normalize() {
         INDArray inputNorm = mInputValues.normmax(0);
         INDArray outputNorm = mOutputValues.normmax(0);
+
+        filterZeroNorm(inputNorm);
+        filterZeroNorm(outputNorm);
+
         NetworkNorm norm = new INDArrayNetworkNorm(inputNorm, outputNorm);
         normalize(norm);
         return norm;
@@ -241,6 +244,17 @@ public class DataAccumulator {
      */
     public INDArray getOutputValues() {
         return mOutputValues;
+    }
+
+
+    private void filterZeroNorm(INDArray array) {
+        for (int i = 0; i < array.rows(); i++) {
+            for (int k = 0; k < array.columns(); k++) {
+                if (array.getFloat(i, k) == 0) {
+                    array.put(i, k, 1);
+                }
+            }
+        }
     }
 
 

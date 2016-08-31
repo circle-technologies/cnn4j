@@ -1,6 +1,9 @@
-package com.circle_technologies.rnn.predictive.r;
+package com.circle_technologies.rnn.navie.r;
 
 import com.circle_technologies.caf.logging.Log;
+import com.circle_technologies.rnn.navie.NaiveNetworkProvider;
+import com.circle_technologies.rnn.navie.NaiveParamProvider;
+import com.circle_technologies.rnn.predictive.Predictor;
 import com.circle_technologies.rnn.predictive.context.NetworkContext;
 import com.circle_technologies.rnn.predictive.eval.ResidualEvaluation;
 import com.circle_technologies.rnn.predictive.network.DirectoryDataAccumulator;
@@ -17,8 +20,13 @@ public class R1 implements R {
 
     @Override
     public boolean initialize() {
-
-        return false;
+        try {
+            mContext = new Predictor().setParamProvider(new NaiveParamProvider()).setNetworkProvider(new NaiveNetworkProvider()).build();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -61,6 +69,20 @@ public class R1 implements R {
         } catch (IOException e) {
             Log.debug("RNN", "Failed loading evaluation files.");
             return null;
+        }
+    }
+
+    @Override
+    public boolean train(String fileOrDir, int epochs) {
+        try {
+            DirectoryDataAccumulator accumulator = mContext.newDirAccu();
+            accumulator.parseAuto(fileOrDir);
+            accumulator.buildIND(true);
+            mContext.getNetwork().train(accumulator.getInputValues(), accumulator.getOutputValues(), epochs);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

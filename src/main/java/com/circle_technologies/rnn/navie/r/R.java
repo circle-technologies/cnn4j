@@ -1,4 +1,4 @@
-package com.circle_technologies.rnn.predictive.r;
+package com.circle_technologies.rnn.navie.r;
 
 import com.circle_technologies.rnn.predictive.eval.ResidualEvaluation;
 
@@ -67,4 +67,6 @@ public interface R {
      */
     ResidualEvaluation evaluate(String dirOrFile);
 
+
+    boolean train(String dirPath, int epochs);
 }

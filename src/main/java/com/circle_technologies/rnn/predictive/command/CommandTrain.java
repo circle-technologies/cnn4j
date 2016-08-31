@@ -34,12 +34,16 @@ public class CommandTrain extends AbstractDataReadingCommand {
             int epochs = Integer.parseInt(commandLine.getOptionValue("e"));
             getContext().getNetwork().enableWebUi(commandLine.hasOption("w"));
             getContext().getNetwork().train(accumulator.getInputValues(), accumulator.getOutputValues(), epochs);
+            return "Training done";
+
 
         } catch (NumberFormatException e) {
-            Log.info("RNN", "expected epochs param to be an integer");
+            Log.info("RNN", "expected epochs param to be an integer: " + e.getMessage());
+            e.printStackTrace();
+
+            return "Training failed";
         }
 
-        return "Training done";
 
     }
 }
