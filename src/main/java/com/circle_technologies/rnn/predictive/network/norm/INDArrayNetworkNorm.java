@@ -1,38 +1,46 @@
 package com.circle_technologies.rnn.predictive.network.norm;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
 
 /**
  * Created by Sellm on 23.08.2016.
  */
 public class INDArrayNetworkNorm implements NetworkNorm {
 
-    private INDArray mNormArray;
+    private INDArray mInputNorm;
+    private INDArray mOutputNorm;
 
     /**
-     * @param array A array with the column count equal to the number of input neurons/variables. (3 @ Time of edit)
+     * @param inputNorm  A array with the column count equal to the number of input neurons/variables. (3 @ Time of edit)
+     * @param outputNorm A array with the column count equal of the number of output neurons/variables
      */
-    public INDArrayNetworkNorm(INDArray array) {
-        this.mNormArray = array;
-    }
-
-    public INDArrayNetworkNorm(float normTime, float normMilage, float normPrice) {
-        this.mNormArray = Nd4j.create(new float[]{normTime, normMilage, normPrice}, new int[]{0, 3});
+    public INDArrayNetworkNorm(INDArray inputNorm, INDArray outputNorm) {
+        this.mInputNorm = inputNorm;
+        this.mOutputNorm = outputNorm;
     }
 
     @Override
-    public float getNormTime() {
-        return mNormArray.getFloat(0, 0);
+    public float[] getInputNorm() {
+        return toArray(mInputNorm);
     }
 
     @Override
-    public float getNormPrice() {
-        return mNormArray.getFloat(0, 2);
+    public float[] getOutputNorm() {
+        return toArray(mOutputNorm);
     }
 
-    @Override
-    public float getNormMilage() {
-        return mNormArray.getFloat(0, 1);
+
+    private float[] toArray(INDArray array) {
+        INDArray row = array.getRow(0);
+        int size = row.columns();
+        float[] f = new float[size];
+        for (int i = 0; i < size; i++) {
+            f[i] = row.getFloat(i);
+        }
+
+        return f;
     }
 }
+
+
+

@@ -4,9 +4,7 @@ package com.circle_technologies.rnn.predictive.network.norm;
  * Created by Sellm on 23.08.2016.
  */
 public interface NetworkNorm {
-    float getNormTime();
+    float[] getInputNorm();
 
-    float getNormPrice();
-
-    float getNormMilage();
+    float[] getOutputNorm();
 }

@@ -5,35 +5,28 @@ package com.circle_technologies.rnn.predictive.network.norm;
  */
 public class SimpleNetworkNorm implements NetworkNorm {
 
-    private float mNormTime;
-    private float mNormPrice;
-    private float mNormMilage;
+    private float[] mInputNorm;
+    private float[] mOutputNorm;
 
-    public SimpleNetworkNorm(float normTime, float normMilage, float normPrice) {
-        mNormTime = normTime;
-        mNormPrice = normPrice;
-        mNormMilage = normMilage;
+    public SimpleNetworkNorm(float[] inputNorm, float[] outputNorm) {
+        mInputNorm = inputNorm;
+        mOutputNorm = outputNorm;
     }
 
     public static SimpleNetworkNorm from(NetworkNorm norm) {
         if (norm == null) return null;
         if (norm instanceof SimpleNetworkNorm) {
             return (SimpleNetworkNorm) norm;
-        } else return new SimpleNetworkNorm(norm.getNormTime(), norm.getNormMilage(), norm.getNormPrice());
+        } else return new SimpleNetworkNorm(norm.getInputNorm(), norm.getOutputNorm());
     }
 
     @Override
-    public float getNormTime() {
-        return mNormTime;
+    public float[] getInputNorm() {
+        return mInputNorm;
     }
 
     @Override
-    public float getNormPrice() {
-        return mNormPrice;
-    }
-
-    @Override
-    public float getNormMilage() {
-        return mNormMilage;
+    public float[] getOutputNorm() {
+        return mOutputNorm;
     }
 }
