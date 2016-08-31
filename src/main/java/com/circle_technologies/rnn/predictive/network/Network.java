@@ -2,13 +2,7 @@ package com.circle_technologies.rnn.predictive.network;
 
 import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.rnn.predictive.context.NetworkContext;
-import org.deeplearning4j.nn.api.OptimizationAlgorithm;
-import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
-import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
-import org.deeplearning4j.nn.conf.layers.DenseLayer;
-import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
-import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.api.IterationListener;
 import org.deeplearning4j.ui.weights.HistogramIterationListener;
 import org.deeplearning4j.util.ModelSerializer;
@@ -69,23 +63,8 @@ public class Network {
      * Builds and initializes the network with given config.
      * This has to be called before the network is used.
      */
-    public void build() {
-        int inputs = mContext.getParams().getInputParams().length;
-        int outputs = mContext.getParams().getOutputParams().length;
-        MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
-                .iterations(1)
-                .weightInit(WeightInit.XAVIER)
-                .activation("relu")
-                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.001)
-                .list()
-                .layer(0, new DenseLayer.Builder().nIn(inputs).nOut(inputs).activation("relu").build())
-                .layer(1, new OutputLayer.Builder().nIn(inputs).nOut(outputs).build())
-                .backprop(true)
-                .pretrain(false)
-                .build();
-
-        this.mMultiLayerNetwork = new MultiLayerNetwork(configuration);
+    public void build(MultiLayerNetwork multiLayerNetwork) {
+        this.mMultiLayerNetwork = multiLayerNetwork;
         this.mMultiLayerNetwork.init();
     }
 

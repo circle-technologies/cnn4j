@@ -17,9 +17,8 @@ public class R1 implements R {
 
     @Override
     public boolean initialize() {
-        mContext.getNetwork().build();
-        mContext.getCommander().setVerbose(false);
-        return true;
+
+        return false;
     }
 
     @Override

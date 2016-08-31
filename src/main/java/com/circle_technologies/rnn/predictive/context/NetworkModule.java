@@ -4,7 +4,8 @@ import com.circle_technologies.caf.command.Commander;
 import com.circle_technologies.rnn.predictive.command.*;
 import com.circle_technologies.rnn.predictive.network.Network;
 import com.circle_technologies.rnn.predictive.network.NetworkNormHolder;
-import com.circle_technologies.rnn.predictive.network.SimpleParams;
+import com.circle_technologies.rnn.predictive.network.Params;
+import com.circle_technologies.rnn.predictive.provider.ProviderProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,11 +15,21 @@ import dagger.Provides;
 @Module
 @NetworkScope
 public class NetworkModule {
+
+    private ProviderProvider mProv;
+
+    public NetworkModule(ProviderProvider providerProvider) {
+        this.mProv = providerProvider;
+    }
+
     @Provides
     @NetworkScope
     Network provideNetwork(NetworkContext context) {
         Network network = new Network(context);
-        network.build();
+        network.build(mProv.getNetworkProvider().provideNetwork(
+                mProv.getParamProvider().provideParams().getInputParams().length,
+                mProv.getParamProvider().provideParams().getOutputParams().length)
+        );
         return network;
     }
 
@@ -47,7 +58,7 @@ public class NetworkModule {
 
     @Provides
     @NetworkScope
-    SimpleParams provideParams() {
-        return new SimpleParams(new String[]{"second_hand_date", "initial", "mileage", "retail_price"}, new String[]{"second_hand_price"});
+    Params provideParams() {
+        return mProv.getParamProvider().provideParams();
     }
 }

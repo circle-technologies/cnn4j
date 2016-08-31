@@ -24,7 +24,7 @@ public interface NetworkContext {
     ContextTool getContextTool();
 
     @NetworkScope
-    SimpleParams getParams();
+    Params getParams();
 
     DataAccumulator newAccu();
 
