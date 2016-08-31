@@ -10,7 +10,7 @@ import com.circle_technologies.rnn.predictive.provider.ProviderProvider;
 /**
  * Created by Sellm on 31.08.2016.
  */
-public class Builder implements ProviderProvider {
+public class Predictor implements ProviderProvider {
 
     private ParamProvider mParamProvider;
     private NetworkProvider mNetworkProvider;
@@ -23,21 +23,23 @@ public class Builder implements ProviderProvider {
         return DaggerNetworkContext.builder().networkModule(new NetworkModule(this)).build();
     }
 
-    public ParamProvider getParamProvider() {
-        return mParamProvider;
-    }
-
-    public Builder setParamProvider(ParamProvider paramProvider) {
-        mParamProvider = paramProvider;
-        return this;
-    }
-
     public NetworkProvider getNetworkProvider() {
         return mNetworkProvider;
     }
 
-    public Builder setNetworkProvider(NetworkProvider provider) {
+    public Predictor setNetworkProvider(NetworkProvider provider) {
         this.mNetworkProvider = provider;
         return this;
     }
+
+    public ParamProvider getParamProvider() {
+        return mParamProvider;
+    }
+
+    public Predictor setParamProvider(ParamProvider paramProvider) {
+        mParamProvider = paramProvider;
+        return this;
+    }
+
+
 }

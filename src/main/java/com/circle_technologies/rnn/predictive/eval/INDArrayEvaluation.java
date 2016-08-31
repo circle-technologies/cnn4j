@@ -30,91 +30,100 @@ public class INDArrayEvaluation implements ResidualEvaluation {
 
     @Override
     public float getVariance() {
-        /*
+
         float accuDeviation = 0;
         for (int i = 0; i < mGuesses.rows(); i++) {
-            float deviation = mReal.getFloat(i) - mGuesses.getFloat(i);
-            float squaredDeviation = (float) Math.pow(deviation, 2);
-            accuDeviation += squaredDeviation;
+            for (int k = 0; k < mGuesses.columns(); k++) {
+                float deviation = mReal.getFloat(i, k) - mGuesses.getFloat(i, k);
+                deviation = deviation * mNorm.getOutputNorm()[k];
+                float squaredDeviation = (float) Math.pow(deviation, 2);
+                accuDeviation += squaredDeviation;
+            }
         }
         int rows = mGuesses.rows();
+        int columns = mGuesses.columns();
 
-        return accuDeviation / (float) rows * mNorm.getNormPrice() * mNorm.getNormPrice();*/
-        return -1;
+        return accuDeviation / ((float) rows * (float) columns);
+
     }
 
     @Override
-    public float getMeanDeviation() {/*
+    public float getMeanDeviation() {
         int rows = mGuesses.rows();
+        int columns = mGuesses.columns();
         float accumulatedDeviation = 0;
 
         for (int i = 0; i < rows; i++) {
-            float real = mReal.getFloat(i);
-            float guess = mGuesses.getFloat(i);
+            for (int k = 0; k < columns; k++) {
+                float real = mReal.getFloat(i, k);
+                float guess = mGuesses.getFloat(i, k);
 
-            float deviation;
-            if (real > guess) deviation = real - guess;
-            else deviation = guess - real;
-
-            accumulatedDeviation = accumulatedDeviation + deviation;
+                float deviation;
+                if (real > guess) deviation = real - guess;
+                else deviation = guess - real;
+                deviation = deviation * mNorm.getOutputNorm()[k];
+                accumulatedDeviation = accumulatedDeviation + deviation;
+            }
         }
 
-        float meanDeviation = accumulatedDeviation / rows;
-        return meanDeviation * mNorm.getNormPrice();*/
-        return -1;
+        return accumulatedDeviation / (rows * columns);
     }
 
     @Override
     public float getMaxDeviation() {
-        /*
+
         float max = 0;
         for (int i = 0; i < mGuesses.rows(); i++) {
-            float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
-            if (deviation < 0) deviation = -deviation;
-            if (deviation > max) max = deviation;
+            for (int k = 0; k < mGuesses.columns(); k++) {
+                float deviation = (mGuesses.getFloat(i, k) - mReal.getFloat(i, k)) * mNorm.getOutputNorm()[k];
+                if (deviation < 0) deviation = -deviation;
+                if (deviation > max) max = deviation;
+            }
         }
-        return max * mNorm.getNormPrice();
-        */
-        return -1;
+
+
+        return max;
     }
 
     @Override
     public float getMinDeviation() {
-        /*
+
         float min = -1;
         for (int i = 0; i < mGuesses.rows(); i++) {
-            float deviation = mGuesses.getFloat(i) - mReal.getFloat(i);
-            if (deviation < 0) deviation = -deviation;
-            if (deviation < min) min = deviation;
-            if (min == -1) min = deviation;
+            for (int k = 0; k < mGuesses.columns(); k++) {
+                float deviation = (mGuesses.getFloat(i, k) - mReal.getFloat(i, k)) * mNorm.getOutputNorm()[k];
+                if (deviation < 0) deviation = -deviation;
+                if (deviation < min) min = deviation;
+                if (min == -1) min = deviation;
+            }
         }
-        return min * mNorm.getNormPrice();
-        */
-        return -1;
+        return min;
+
     }
 
     @Override
     public float getAccuracy() {
-        /*
+
 
         float accuAccuracy = 0;
 
         for (int i = 0; i < mGuesses.rows(); i++) {
-            float guess = mGuesses.getFloat(i);
-            if (guess < 0) guess = -guess;
-            float real = mReal.getFloat(i);
-            float accuracy;
+            for (int k = 0; k < mGuesses.columns(); k++) {
+                float guess = mGuesses.getFloat(i, k);
+                if (guess < 0) guess = -guess;
+                float real = mReal.getFloat(i, k);
+                float accuracy;
 
-            if (guess > real) {
-                accuracy = real / guess;
-            } else {
-                accuracy = guess / real;
+                if (guess > real) {
+                    accuracy = real / guess;
+                } else {
+                    accuracy = guess / real;
+                }
+                accuAccuracy += accuracy;
             }
-            accuAccuracy += accuracy;
         }
         return accuAccuracy / (float) mGuesses.rows();
-        */
-        return -1;
+
     }
 
 }

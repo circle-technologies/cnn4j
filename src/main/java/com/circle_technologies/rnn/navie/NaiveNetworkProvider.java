@@ -20,7 +20,7 @@ public class NaiveNetworkProvider implements NetworkProvider {
                 .weightInit(WeightInit.XAVIER)
                 .activation("relu")
                 .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.001)
+                .learningRate(0.01)
                 .list()
                 .layer(0, new DenseLayer.Builder().nIn(inputs).nOut(inputs).activation("relu").build())
                 .layer(1, new OutputLayer.Builder().nIn(inputs).nOut(outputs).build())
