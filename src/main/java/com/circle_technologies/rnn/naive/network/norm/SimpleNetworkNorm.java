@@ -1,7 +1,5 @@
 package com.circle_technologies.rnn.naive.network.norm;
 
-import org.nd4j.linalg.factory.Nd4j;
-
 /**
  * Created by Sellm on 24.08.2016.
  */

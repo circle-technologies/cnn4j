@@ -23,7 +23,6 @@
     </build>
 
 
-
     <dependencies>
 
         <dependency>
@@ -41,13 +40,10 @@
         </dependency>
 
 
-
-
-
         <dependency>
             <groupId>org.encog</groupId>
-            <artifactId>encog-core</artifactId >
-            <version >3.3.0</version>
+            <artifactId>encog-core</artifactId>
+            <version>3.3.0</version>
         </dependency>
 
 

@@ -5,6 +5,8 @@ package com.circle_technologies.rnn.naive.network.norm;
  */
 public interface NetworkNorm {
     float getNormTime();
+
     float getNormPrice();
+
     float getNormMilage();
 }

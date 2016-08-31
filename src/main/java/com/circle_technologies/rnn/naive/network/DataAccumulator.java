@@ -177,7 +177,7 @@ public class DataAccumulator {
      *
      * @param netNorm Normalization factor of type NetworkNorm
      * @return The specified netNorm if param <code>netNorm != null</code><br>
-     *     A newly created norm via {@link #normalize()} if <code>netNorm == null</code>
+     * A newly created norm via {@link #normalize()} if <code>netNorm == null</code>
      */
 
 

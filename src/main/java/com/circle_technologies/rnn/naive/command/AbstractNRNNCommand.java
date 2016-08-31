@@ -1,7 +1,6 @@
 package com.circle_technologies.rnn.naive.command;
 
 import com.circle_technologies.caf.command.AbstractCommand;
-import com.circle_technologies.caf.command.Command;
 import com.circle_technologies.rnn.naive.context.NaiveNetworkContext;
 
 /**
