@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/cNN4j.iml" filepath="$PROJECT_DIR$/cNN4j.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cnn4j.iml" filepath="$PROJECT_DIR$/cnn4j.iml" />
     </modules>
   </component>
 </project>

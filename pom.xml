@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.circle-technologies</groupId>
-    <artifactId>rnn</artifactId>
+    <artifactId>cnn4j</artifactId>
     <version>0.1-alpha</version>
 
     <build>
