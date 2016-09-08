@@ -47,11 +47,11 @@ fabric.properties
 
 /data/
 /net/
-/residual_nn.iml
 /target/
-*.iml
 /net2/
 /test/
 /train/
 /net0-0198/
 /net1/
+/net2-0107/
+/.idea/artifacts/
