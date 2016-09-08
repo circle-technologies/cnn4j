@@ -8,6 +8,16 @@
     <artifactId>cnn4j</artifactId>
     <version>0.1-alpha</version>
 
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>circle_technologies</id>
+            <name>circle_repository</name>
+            <url>file://D:/circles/maven/repository</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
