@@ -13,21 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.circle_technologies.cnn4j.example;
-
-import com.circle_technologies.cnn4j.predictive.network.Params;
-import com.circle_technologies.cnn4j.predictive.network.SimpleParams;
-import com.circle_technologies.cnn4j.predictive.provider.ParamProvider;
-
-/**
- * Created by Sellm on 09.09.2016.
- * Circle Technologies
- */
-@SuppressWarnings("WeakerAccess")
-public class RegressionParamProvider implements ParamProvider {
-    @Override
-    public Params provideParams() {
-        return new SimpleParams(new String[]{"first_input", "second_input"}, new String[]{"output"});
-    }
-}

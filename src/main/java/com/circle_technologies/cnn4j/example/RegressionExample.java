@@ -28,7 +28,9 @@ public class RegressionExample {
     public static void main(String[] args) {
         NetworkContext context = new Predictor()
                 .setParamProvider(new RegressionParamProvider())
-                .setNetworkProvider(new SimpleSingleLayerNetworkProvider())
+                .setNetworkProvider(new SimpleSingleLayerNetworkProvider()
+                        .setLearningRate(0.1f)
+                        .setActivationFunction("tanh"))
                 .build();
 
         context.getCommander().setVerbose(false);
