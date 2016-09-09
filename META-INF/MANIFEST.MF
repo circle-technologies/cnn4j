@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.circle_technologies.cnn4j.Main
-
