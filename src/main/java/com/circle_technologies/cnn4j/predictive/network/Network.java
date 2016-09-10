@@ -71,7 +71,7 @@ public class Network {
     @Inject
     public Network(NetworkContext context) {
         mContext = context;
-        System.out.println("NETWORK CREATED");
+        System.out.println("Creating Network...");
         this.mIterationListeners = new ArrayList<>();
     }
 
