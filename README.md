@@ -44,7 +44,7 @@ It is a framework for very fast deployment of neural networks using deeplearning
         </dependency>
 ```
 
-### Chose your processing power
+### Choose your processing power
 deeplearning4j provides the possibility of training networks with your nvidia gpu using cuda. You can choose between native cpu or gpu processing by choosing **one** of the following dependencies. 
 
 #### Native processing (should always work)
