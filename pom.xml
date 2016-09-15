@@ -26,12 +26,24 @@
 
     <distributionManagement>
         <repository>
-            <id>circle</id>
-            <name>fablue repository</name>
-            <url>scp://circle-technologies.com/home/maven/repo</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>circle-os</id>
+            <url>http://circle-technologies.com:8080/repository/circle-os/</url>
         </repository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>circle-os</id>
+            <name>circle open source repository</name>
+            <url>http://circle-technologies.com:8080/repository/circle-os/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -82,7 +94,7 @@
         <dependency>
             <groupId>com.circle-technologies</groupId>
             <artifactId>caf</artifactId>
-            <version>0.14</version>
+            <version>0.15</version>
         </dependency>
 
 
