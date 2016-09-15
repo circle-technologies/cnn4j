@@ -22,9 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="cnn4j" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="cnn4j" target="1.8" />
       <module name="residual_nn" target="1.8" />
       <module name="rnn" target="1.8" />
     </bytecodeTargetLevel>

@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package com.circle_technologies.cnn4j.predictive.network;
+package com.circle_technologies.cnn4j.example;
+
+import com.circle_technologies.cnn4j.predictive.network.Params;
+import com.circle_technologies.cnn4j.predictive.network.SimpleParams;
+import com.circle_technologies.cnn4j.predictive.provider.ParamProvider;
 
 /**
- * Created by Sellm on 31.08.2016.
+ * Created by Sellm on 09.09.2016.
+ * Circle Technologies
  */
-public class SimpleParams implements Params {
-    private String[] mInputParams;
-    private String[] mOutputParams;
-
-    public SimpleParams(String[] inputParams, String[] outputParams) {
-        this.mInputParams = inputParams;
-        this.mOutputParams = outputParams;
-    }
-
-
+@SuppressWarnings("WeakerAccess")
+public class RegressionParamProvider implements ParamProvider {
     @Override
-    public String[] getInputParams() {
-        return mInputParams;
-    }
-
-    @Override
-    public String[] getOutputParams() {
-        return mOutputParams;
+    public Params provideParams() {
+        return new SimpleParams(new String[]{"first_input", "second_input"}, new String[]{"output"});
     }
 }

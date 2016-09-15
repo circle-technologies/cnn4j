@@ -1,3 +1,8 @@
 <component name="CopyrightManager">
-  <settings default="" />
+  <settings default="">
+    <module2copyright>
+      <element module="Project Files" copyright="apache 2" />
+    </module2copyright>
+    <LanguageOptions name="JAVA" />
+  </settings>
 </component>
