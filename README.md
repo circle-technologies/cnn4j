@@ -30,7 +30,7 @@ It is a framework for very fast deployment of neural networks using deeplearning
     <repositories>
         <repository>
             <id>circle-os</id>
-            <url>http://circle-technologies.com:8080/repository/circle-os/</url>
+            <url>https://circle-technologies.com:9090/repository/circle-os/</url>
         </repository>
     </repositories>
 ``` 
