@@ -36,12 +36,6 @@
             <id>circle-os</id>
             <name>circle open source repository</name>
             <url>https://circle-technologies.com:9090/repository/circle-os/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
 
