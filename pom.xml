@@ -27,7 +27,7 @@
     <distributionManagement>
         <repository>
             <id>circle-os</id>
-            <url>http://circle-technologies.com:8080/repository/circle-os/</url>
+            <url>https://circle-technologies.com:9090/repository/circle-os/</url>
         </repository>
     </distributionManagement>
 
@@ -35,13 +35,7 @@
         <repository>
             <id>circle-os</id>
             <name>circle open source repository</name>
-            <url>http://circle-technologies.com:8080/repository/circle-os/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <url>https://circle-technologies.com:9090/repository/circle-os/</url>
         </repository>
     </repositories>
 
@@ -85,9 +79,18 @@
 
 
         <dependency>
+            <scope>compile</scope>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-cuda-7.5-platform</artifactId>
             <version>0.5.0</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>0.5.0</version>
+            <optional>true</optional>
         </dependency>
 
 
