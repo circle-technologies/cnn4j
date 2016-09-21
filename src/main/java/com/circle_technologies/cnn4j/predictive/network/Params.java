@@ -19,8 +19,19 @@ package com.circle_technologies.cnn4j.predictive.network;
 /**
  * Created by Sellm on 31.08.2016.
  */
+
+/**
+ * Main Interface for specifying the params in which the network is interested in.
+ */
 public interface Params {
+
+    /**
+     * @return An array of strings specifying the input params.
+     */
     String[] getInputParams();
 
+    /**
+     * @return An array of strings specifying the output params.
+     */
     String[] getOutputParams();
 }

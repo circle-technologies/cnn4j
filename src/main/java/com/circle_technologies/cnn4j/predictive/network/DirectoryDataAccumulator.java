@@ -25,6 +25,7 @@ import java.io.IOException;
 /**
  * Created by Sellm on 25.08.2016.
  */
+@SuppressWarnings("unused")
 public class DirectoryDataAccumulator extends DataAccumulator {
 
     @Inject
@@ -32,6 +33,13 @@ public class DirectoryDataAccumulator extends DataAccumulator {
         super(context);
     }
 
+    /**
+     * Reads a whole directory of json files into memory.
+     *
+     * @param dirPath The directories path.
+     * @return The number of read data-sets.
+     * @throws IOException If the directory path is invalid, a file or not accessible
+     */
     public long parseDir(String dirPath) throws IOException {
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
@@ -48,6 +56,14 @@ public class DirectoryDataAccumulator extends DataAccumulator {
         return dataRead;
     }
 
+    /**
+     * A convenient method for reading in a file or directory. This method
+     * will automatically decide whether it has to use {@link #parseJson(String)} or
+     * {@link #parseDir(String)} depending on the given filepath
+     * @param path The path pointing to a file or directory
+     * @return The number of read data-sets
+     * @throws IOException If the filepath is invalid, or not accessible
+     */
     public long parseAuto(String path) throws IOException {
         File file = new File(path);
         if (file.isDirectory()) {

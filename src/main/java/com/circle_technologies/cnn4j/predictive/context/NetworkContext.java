@@ -24,6 +24,7 @@ import dagger.Component;
 /**
  * Created by Sellm on 23.08.2016.
  */
+@SuppressWarnings("unused")
 @NetworkScope
 @Component(modules = NetworkModule.class)
 public interface NetworkContext {
