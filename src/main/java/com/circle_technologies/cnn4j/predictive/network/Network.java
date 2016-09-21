@@ -65,6 +65,9 @@ public class Network {
     private int mDebuggingIteration = STANDARD_DEBUGGING_ITERATION;
 
 
+    /**
+     * The network context this Network is associated with.
+     */
     private NetworkContext mContext;
 
 
@@ -132,7 +135,7 @@ public class Network {
     public void train(INDArray input, INDArray output, int epochs) {
         mMultiLayerNetwork.setListeners(mIterationListeners);
         for (int i = 0; i < epochs; i++) {
-            if (mDebuggingIteration > 0 & i % mDebuggingIteration == 0) {
+            if (i > 0 && mDebuggingIteration > 0 & i % mDebuggingIteration == 0) {
                 Log.debug("Training", "Epoch: " + i + "   ####  SCORE #### " + mMultiLayerNetwork.score());
             }
             mMultiLayerNetwork.fit(input, output);
@@ -207,6 +210,17 @@ public class Network {
      */
     public void setDebuggingIteration(int iteration) {
         this.mDebuggingIteration = iteration;
+    }
+
+
+    /**
+     * Provides the {@link MultiLayerNetwork} from deeplearning4j
+     *
+     * @return The current network <br>
+     * <code>null - </code> if {@link #build(MultiLayerNetwork)} was not called
+     */
+    public MultiLayerNetwork getMultiLayerNetwork() {
+        return mMultiLayerNetwork;
     }
 
 

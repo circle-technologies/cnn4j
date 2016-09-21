@@ -22,7 +22,7 @@
 
     <groupId>com.circle-technologies</groupId>
     <artifactId>cnn4j</artifactId>
-    <version>0.2-alpha</version>
+    <version>0.2.2-alpha</version>
 
     <distributionManagement>
         <repository>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.circle-technologies</groupId>
             <artifactId>caf</artifactId>
-            <version>0.15</version>
+            <version>0.15.1</version>
         </dependency>
 
 
