@@ -40,7 +40,7 @@ It is a framework for very fast deployment of neural networks using deeplearning
         <dependency>
             <groupId>com.circle-technologies</groupId>
             <artifactId>cnn4j</artifactId>
-            <version>0.2-alpha</version>
+            <version>0.3-alpha</version>
         </dependency>
 ```
 
