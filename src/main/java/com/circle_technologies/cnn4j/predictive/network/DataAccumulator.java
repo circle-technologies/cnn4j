@@ -20,8 +20,9 @@ import com.circle_technologies.caf.annotation.NonNull;
 import com.circle_technologies.caf.io.IOToolKit;
 import com.circle_technologies.caf.logging.Log;
 import com.circle_technologies.cnn4j.predictive.context.NetworkContext;
-import com.circle_technologies.cnn4j.predictive.network.norm.INDArrayNetworkNorm;
 import com.circle_technologies.cnn4j.predictive.network.norm.NetworkNorm;
+import com.circle_technologies.cnn4j.predictive.network.norm.Normalizer;
+import com.circle_technologies.cnn4j.predictive.network.norm.SimpleNetworkNorm;
 import org.deeplearning4j.berkeley.Pair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -224,28 +225,21 @@ public class DataAccumulator {
      */
 
     public NetworkNorm normalize() {
-        INDArray inputNorm = mInputValues.normmax(0);
-        INDArray outputNorm = mOutputValues.normmax(0);
 
-        filterZeroNorm(inputNorm);
-        filterZeroNorm(outputNorm);
+        Normalizer normalizer = mContext.getNormalizer();
+        float[] normIn = normalizer.getNorm(mInputValues);
+        float[] normOut = normalizer.getNorm(mOutputValues);
 
-        NetworkNorm norm = new INDArrayNetworkNorm(inputNorm, outputNorm);
-        normalize(norm);
-        return norm;
+        NetworkNorm networkNorm = new SimpleNetworkNorm(normIn, normOut);
+        normalize(networkNorm);
+
+
+        return networkNorm;
     }
 
 
     private void normalize(INDArray array, float[] norm) {
-        int inputParams = array.size(1);
-        int dataCount = array.size(0);
-        for (int i = 0; i < dataCount; i++) {
-            for (int k = 0; k < inputParams; k++) {
-                float value = array.getFloat(i, k);
-                array.put(i, k, value / norm[k]);
-            }
-        }
-
+        mContext.getNormalizer().normalize(array, norm);
     }
 
     /**
@@ -260,17 +254,6 @@ public class DataAccumulator {
      */
     public INDArray getOutputValues() {
         return mOutputValues;
-    }
-
-
-    private void filterZeroNorm(INDArray array) {
-        for (int i = 0; i < array.rows(); i++) {
-            for (int k = 0; k < array.columns(); k++) {
-                if (array.getFloat(i, k) == 0) {
-                    array.put(i, k, 1);
-                }
-            }
-        }
     }
 
 

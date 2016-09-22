@@ -19,6 +19,7 @@ package com.circle_technologies.cnn4j.predictive.context;
 import com.circle_technologies.caf.command.Commander;
 import com.circle_technologies.cnn4j.predictive.eval.SimpleResidualEvaluator;
 import com.circle_technologies.cnn4j.predictive.network.*;
+import com.circle_technologies.cnn4j.predictive.network.norm.MaxNormalizer;
 import dagger.Component;
 
 /**
@@ -46,4 +47,7 @@ public interface NetworkContext {
     DataAccumulator newAccu();
 
     DirectoryDataAccumulator newDirAccu();
+
+    @NetworkScope
+    MaxNormalizer getNormalizer();
 }
