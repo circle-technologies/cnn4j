@@ -26,5 +26,12 @@ public interface Normalizer {
 
     float[] getNorm(INDArray array);
 
+
+    /**
+     * @param array
+     * @param norm
+     * @throws IllegalArgumentException if array does not contain exactly the amount of
+     *                                  columns than the length of norm.
+     */
     void normalize(INDArray array, float[] norm);
 }

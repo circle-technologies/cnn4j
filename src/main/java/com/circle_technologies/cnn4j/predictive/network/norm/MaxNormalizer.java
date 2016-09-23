@@ -47,12 +47,6 @@ public class MaxNormalizer implements Normalizer {
     }
 
 
-    /**
-     * @param array
-     * @param norm
-     * @throws IllegalArgumentException if array does not contain exactly the amount of
-     *                                  columns than the length of norm.
-     */
     public void normalize(INDArray array, float[] norm) {
         if (array.columns() != norm.length) {
             throw new IllegalArgumentException("Matrix contains " + array.columns() + " params, but norm: " + norm.length);
